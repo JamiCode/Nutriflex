@@ -1,7 +1,7 @@
 # Nutri Flex - Your Personalized AI Fitness Assistant
 
 ## Overview
-### Current Status : Under development
+#### Current Status : Under development
 
 Welcome to Nutri Flex, your ultimate fitness companion powered by artificial intelligence! This application aims to revolutionize the fitness experience by providing personalized workout plans, real-time progress analysis, and AI-powered encouragement to keep you motivated on your journey to optimal health.
 
