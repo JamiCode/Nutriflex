@@ -70,6 +70,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'nutriflex_api.wsgi.application'
+AUTH_USER_MODEL = 'account.Account'
 
 
 # Database
