@@ -3,21 +3,26 @@
 import "./index.css";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import Signin from "@/components/auth/Signin";
+import Signup from "@/components/auth/Signup";
 
 const auth = () => {
   const [isRegistration, setIsRegistration] = useState(false);
   const [isShowMessage, setIsShowMessage] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+
+  const [errorMessages, setErrorMessages] = useState({});
+  const [isShowErrorMessage, setIsShowErrorMessage] = useState(false);
 
   const router = useRouter();
 
   async function onSubmit(event) {
     event.preventDefault();
-    setErrorMessage("");
+    setErrorMessages({});
 
     const formData = new FormData(event.currentTarget);
+    console.log("formData", formData);
 
-    const url = isRegistration ? "users" : "token";
+    const url = isRegistration ? "users/create" : "users/token";
     try {
       console.log(process.env.API_KEY);
       const headers = {
@@ -41,29 +46,42 @@ const auth = () => {
           }
         : {
             method: "POST",
-            body: formData,
             headers: {
-              API_KEY: headers.API_KEY,
+              Accept: "application/json",
+              "Content-Type": "application/json",
             },
+            body: JSON.stringify(formDataJson),
           };
+      console.log("env url", process.env.API_URL);
       console.log("fetchObject", fetchObject);
-      const response = await fetch(
-        `${process.env.API_URL}/${url}`,
-        fetchObject
-      );
+      const response = await fetch(`/api/${url}`, fetchObject);
       console.log("resp", response);
       if (response) {
         const data = await response.json();
-        if (!data.detail) {
-          if (data.access_token) {
-            sessionStorage.setItem("accessToken", data.access_token);
-            router.push("/");
-          } else if (Array.isArray(data)) {
+        console.log(response);
+        if (response.status === 200 || response.status === 201) {
+          if (data.access) {
+            sessionStorage.setItem("accessToken", data.access);
+            router.push("/dashboard");
+          } else {
             setIsShowMessage(true);
             setIsRegistration(false);
           }
-        } else if (data.detail) {
-          setErrorMessage(data.detail);
+        } else {
+          console.log("data-error", data);
+
+          const isKeyIncludeInError = [
+            "email",
+            "first_name",
+            "last_name",
+            "password",
+            "password2",
+          ].some((errorKey) => data[errorKey]);
+          console.log("isKeyIncludeInError", isKeyIncludeInError);
+          setErrorMessages(data);
+          if (!isRegistration || !isKeyIncludeInError) {
+            setIsShowErrorMessage(true);
+          }
         }
       }
     } catch (error) {
@@ -73,6 +91,8 @@ const auth = () => {
 
   function showRegistration() {
     setIsRegistration(!isRegistration);
+    setIsShowMessage(false);
+    setErrorMessages({});
   }
 
   return (
@@ -86,7 +106,7 @@ const auth = () => {
         />
 
         <h1 className="text-4xl font-bold mb-4">
-          <i>CareCompanion ChatBot</i>
+          <i>Nutriflex</i>
         </h1>
         <h2 className="text-2xl font-bold mb-8">Login into your account</h2>
 
@@ -101,17 +121,26 @@ const auth = () => {
         ) : (
           ""
         )}
-        {errorMessage && (
-          <div
-            className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
-            role="alert"
-          >
-            <p>{errorMessage}</p>
-          </div>
-        )}
+
+        {isShowErrorMessage &&
+          Object.keys(errorMessages).map((errorMessage) => {
+            return (
+              <div
+                className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+                role="alert"
+                key={errorMessage}
+              >
+                <p>{errorMessages[errorMessage]}</p>
+              </div>
+            );
+          })}
 
         <form className="space-y-6" onSubmit={onSubmit} method="POST">
-          {isRegistration ? <Registration /> : <Signin />}
+          {isRegistration ? (
+            <Signup errorMessages={errorMessages} />
+          ) : (
+            <Signin />
+          )}
         </form>
 
         <p className="mt-8 text-center text-sm text-gray-400">
@@ -128,163 +157,4 @@ const auth = () => {
   );
 };
 
-const Registration = () => {
-  return (
-    <>
-      {/* Email field */}
-      <div>
-        <div className="flex items-center justify-between">
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium leading-6"
-          >
-            Email address
-          </label>
-        </div>
-        <div className="mt-2">
-          <input
-            id="email"
-            name="email"
-            type="email"
-            autoComplete="email"
-            required
-            className="bg-gray-300 bg-slate-200 block w-full rounded-md border-0 py-2 text-black focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 text-sm"
-          />
-        </div>
-      </div>
-      {/* First name field */}
-      <div>
-        <div className="flex items-center justify-between">
-          <label
-            htmlFor="firstName"
-            className="block text-sm font-medium leading-6"
-          >
-            First Name
-          </label>
-        </div>
-
-        <div className="mt-2">
-          <input
-            id="firstName"
-            name="first_name"
-            type="text"
-            autoComplete="given-name"
-            required
-            className="block w-full rounded-md border-0 py-2 text-black bg-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 text-sm"
-          />
-        </div>
-      </div>
-      {/* Last name field */}
-      <div>
-        <div className="flex items-center justify-between">
-          <label
-            htmlFor="lastName"
-            className="block text-sm font-medium leading-6"
-          >
-            Last Name
-          </label>
-        </div>
-
-        <div className="mt-2">
-          <input
-            id="lastName"
-            name="last_name"
-            type="text"
-            autoComplete="family-name"
-            required
-            className="block w-full rounded-md border-0 py-2 text-black bg-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 text-sm"
-          />
-        </div>
-      </div>
-      {/* Password field */}
-      <div>
-        <div className="flex items-center justify-between">
-          <label
-            htmlFor="password"
-            className="block text-sm font-medium leading-6"
-          >
-            Password
-          </label>
-        </div>
-
-        <div className="mt-2">
-          <input
-            id="password"
-            name="hashed_password"
-            type="password"
-            autoComplete="new-password"
-            required
-            className="block w-full rounded-md border-0 py-2 text-black bg-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 text-sm"
-          />
-        </div>
-      </div>
-      {/* Submit button */}
-      <div>
-        <button
-          type="submit"
-          className="flex w-full justify-center rounded-md bg-indigo-600 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        >
-          Sign Up
-        </button>
-      </div>
-    </>
-  );
-};
-
-const Signin = () => {
-  return (
-    <>
-      <div>
-        <div className="flex items-center justify-between">
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium leading-6"
-          >
-            Email address
-          </label>
-        </div>
-        <div className="mt-2">
-          <input
-            id="email"
-            name="username"
-            type="email"
-            autoComplete="email"
-            required
-            className="block w-full bg-slate-200 rounded-md border-0 py-2 text-black  focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 text-sm"
-          />
-        </div>
-      </div>
-
-      <div>
-        <div className="flex items-center justify-between">
-          <label
-            htmlFor="password"
-            className="block text-sm font-medium leading-6"
-          >
-            Password
-          </label>
-        </div>
-        <div className="mt-2">
-          <input
-            id="password"
-            name="password"
-            type="password"
-            autoComplete="current-password"
-            required
-            className="block w-full rounded-md border-0 py-2 text-black bg-slate-200 focus:outline-none focus:ring-2 focus:gray-500 placeholder-gray-400 text-sm"
-          />
-        </div>
-      </div>
-
-      <div>
-        <button
-          type="submit"
-          className="flex w-full justify-center rounded-md bg-blue-500 py-2 text-sm font-semibold text-black shadow-sm hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        >
-          Sign in
-        </button>
-      </div>
-    </>
-  );
-};
 export default auth;
