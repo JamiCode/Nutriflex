@@ -8,8 +8,10 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.generics import GenericAPIView
 from rest_framework import status
+from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 from .serializers import UserSerializer
 from .serializers import UserRegisterSerializer
+from .serializers import LogoutSerializer
 
 
 
@@ -60,3 +62,30 @@ class RegisterUserView(GenericAPIView):
                 )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+class LogoutView(APIView):
+    """
+    API View for logging out a user.
+    Only authenticated users can log out.
+    """
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        # Serialize the incoming data
+        serializer = LogoutSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        # Get the refresh token and access token from the serialized data
+        refresh_token = serializer.validated_data['refresh_token']
+        access_token = serializer.validated_data['access_token']
+
+        # Blacklist both refresh token and access token
+        try:
+            RefreshToken(refresh_token).blacklist()
+            AccessToken().from_token_string(access_token).blacklist()
+        except Exception as e:
+            return Response({'detail': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+       
+
+        return Response({'detail':'User Successfully Logged out'}, status=status.HTTP_200_OK)

@@ -7,9 +7,6 @@ class UserSerializer(serializers.ModelSerializer):
         model = Account
         fields = ['id', 'email','first_name', 'last_name']  
 
-
-
-
 class UserRegisterSerializer(serializers.ModelSerializer):
     """ UserRegister Serializer for registering users into the database"""
 
@@ -46,3 +43,9 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
         # Create and return the user instance
         return Account.objects.create_user(password=password, **validated_data)
+    
+
+class LogoutSerializer(serializers.Serializer):
+    refresh_token = serializers.CharField()
+    access_token = serializers.CharField()
+    
