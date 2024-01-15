@@ -98,7 +98,7 @@ const auth = () => {
     <div className="bg-white text-black min-h-screen flex flex-col justify-center py-12 px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
         <img
-          src="./care-bot.png"
+          src="./nutriflex.png"
           alt="Company Logo"
           className="mx-auto"
           width="140"
