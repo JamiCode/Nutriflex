@@ -30,10 +30,28 @@ const auth = () => {
         "Content-Type": "application/json",
       };
       let formDataJson = {};
-
       formData.forEach((value, key) => {
-        formDataJson[key] = value;
-      });
+        switch (key) {
+            case 'Email Address':
+                formDataJson['email'] = value;
+                break;
+            case 'First Name':
+                formDataJson['first_name'] = value;
+                break;
+            case 'Last Name':
+                formDataJson['last_name'] = value;
+                break;
+            case 'Password':
+                formDataJson['password'] = value;
+                break;
+            case 'Confirm Password':
+                formDataJson['password2'] = value;
+                break;
+            default:
+                formDataJson[key] = value;
+                break;
+        }
+    });
 
       const fetchObject = isRegistration
         ? {
