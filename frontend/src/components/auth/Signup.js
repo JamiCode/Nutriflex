@@ -4,19 +4,19 @@ const Signup = ({ errorMessages }) => {
   return (
     <>
       {/* Email field */}
-      <TextField name="Email Address" errorMessages={errorMessages} />
+      <TextField name="email" errorMessages={errorMessages} />
 
       {/* First name field */}
-      <TextField name="First Name" errorMessages={errorMessages} />
+      <TextField name="first_name" errorMessages={errorMessages} />
 
       {/* Last name field */}
-      <TextField name="Last Name" errorMessages={errorMessages} />
+      <TextField name="last_name" errorMessages={errorMessages} />
 
       {/* Password field */}
-      <TextField name="Password" errorMessages={errorMessages} />
+      <TextField name="password" errorMessages={errorMessages} />
 
       {/* Repeat password */}
-      <TextField name="Confirm Password" errorMessages={errorMessages} />
+      <TextField name="password2" errorMessages={errorMessages} />
 
       {/* Submit button */}
       <div>

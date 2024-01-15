@@ -6,11 +6,18 @@ const TextField = ({ name, errorMessages }) => {
       ? "email"
       : "text";
 
+  const fieldName =
+    name === "password2"
+      ? "Confirm password"
+      : name
+          .replace(/_([a-z])/g, (_, letter) => ` ${letter.toUpperCase()}`)
+          .replace(/^./, (str) => str.toUpperCase());
+
   return (
     <div>
       <div className="flex items-center justify-between">
         <label htmlFor={name} className="block text-sm font-medium leading-6">
-          {name}
+          {fieldName}
         </label>
       </div>
 
