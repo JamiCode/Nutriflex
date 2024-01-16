@@ -6,7 +6,7 @@ import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 import NavBar from "@/components/NavBar";
 import "../../../app/globals.css";
 import AuthContext from "@/components/AuthProvider";
-import axios from "@/api/axios";
+import axios_ from "@/api/axios";
 
 const LOGIN_URL = "/api/users/token";
 
@@ -38,7 +38,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post(LOGIN_URL, JSON.stringify(formData), {
+      const response = await axios_.post(LOGIN_URL, JSON.stringify(formData), {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       });
