@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import "../../../app/globals.css";
 import NavBar from "@/components/NavBar";
 import { useRouter } from "next/router";
+import { faEnvelope, faUser, faLock } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const SignUp = () => {
   const router = useRouter();
@@ -112,6 +114,7 @@ const SignUp = () => {
             {/* Email */}
             <div className="mb-4">
               <label className="block text-gray-300 text-sm mb-2">
+                <FontAwesomeIcon icon={faEnvelope} className="mr-2" />
                 Email Address
               </label>
               <input
@@ -134,6 +137,7 @@ const SignUp = () => {
             {/* First Name */}
             <div className="mb-4">
               <label className="block text-gray-300 text-sm mb-2">
+                <FontAwesomeIcon icon={faUser} className="mr-2" />
                 First Name
               </label>
               <input
@@ -156,6 +160,7 @@ const SignUp = () => {
             {/* Last Name */}
             <div className="mb-4">
               <label className="block text-gray-300 text-sm mb-2">
+                <FontAwesomeIcon icon={faUser} className="mr-2" />
                 Last Name
               </label>
               <input
@@ -178,6 +183,7 @@ const SignUp = () => {
             {/* Password */}
             <div className="mb-4 relative">
               <label className="block text-gray-300 text-sm mb-2">
+                <FontAwesomeIcon icon={faLock} className="mr-2" />
                 Password
               </label>
               <input
@@ -249,6 +255,7 @@ const SignUp = () => {
             {/* Confirm Password */}
             <div className="mb-6 relative">
               <label className="block text-gray-300 text-sm mb-2">
+                <FontAwesomeIcon icon={faLock} className="mr-2" />
                 Confirm Password
               </label>
               <input
