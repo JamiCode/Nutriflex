@@ -2,6 +2,8 @@
 import React from "react";
 import Head from "next/head";
 import "../app/globals.css";
+import "../components/NavBar";
+import NavBar from "../components/NavBar";
 
 const LandingPage = () => {
   return (
@@ -10,35 +12,7 @@ const LandingPage = () => {
         <title>NutriFlex - Your Ultimate Fitness Companion</title>
       </Head>
 
-      {/* Navigation Bar with a place for a logo */}
-      <nav className="flex justify-between items-center p-4">
-        <div className="flex items-center">
-          <img
-            src="/logo.png"
-            alt="NutriFlex Logo"
-            className="w-10 h-10 mr-2"
-          />
-          <div className="text-2xl font-extrabold">NutriFlex</div>
-        </div>
-        <div className="flex space-x-4">
-          <a href="#home" className="text-lg hover:underline">
-            Home
-          </a>
-          <a href="#features" className="text-lg hover:underline">
-            Features
-          </a>
-          <a href="#problem" className="text-lg hover:underline">
-            Problem
-          </a>
-          <a href="#solution" className="text-lg hover:underline">
-            Solution
-          </a>
-          <a href="#contact" className="text-lg hover:underline">
-            Contact
-          </a>
-        </div>
-      </nav>
-
+      <NavBar />
       {/* Hero Section with more margin and padding */}
       <div className="container mx-auto text-center py-40">
         <h1 className="text-5xl font-extrabold mb-4">Welcome to Nutri Flex</h1>
@@ -46,7 +20,7 @@ const LandingPage = () => {
           Your ultimate fitness companion powered by artificial intelligence!
         </p>
         <a
-          href="#"
+          href="/auth/register"
           className="bg-blue-500 text-white font-bold py-3 px-6 rounded-full hover:bg-blue-700 transition duration-300"
         >
           Get Started

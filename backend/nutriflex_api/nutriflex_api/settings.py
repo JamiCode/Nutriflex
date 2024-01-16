@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     "rest_framework",
     "account",
     "drf_yasg"
@@ -96,6 +97,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'nutriflex_api.urls'
@@ -118,6 +120,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'nutriflex_api.wsgi.application'
 AUTH_USER_MODEL = 'account.Account'
+
 
 
 # Database
@@ -171,3 +174,8 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
