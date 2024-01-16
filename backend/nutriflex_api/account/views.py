@@ -12,6 +12,8 @@ from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 from .serializers import UserSerializer
 from .serializers import UserRegisterSerializer
 from .serializers import LogoutSerializer
+from rest_framework.exceptions import AuthenticationFailed
+
 
 
 
@@ -19,10 +21,22 @@ from .serializers import LogoutSerializer
 class UserDetailsView(APIView):
     """ Get Basic information about user"""
     permission_classes = [IsAuthenticated]
+
     def get(self, request):
-        user = request.user #retrieve authenticated user
-        serializer = UserSerializer(user)
-        return Response(serializer.data)
+        try:
+            user = request.user  # retrieve authenticated user
+            serializer = UserSerializer(user)
+            return Response(serializer.data)
+        except AuthenticationFailed:
+            # Handle authentication failure (e.g., invalid or expired token)
+            return Response({"detail": "invalid_access_token"}, status=status.HTTP_401_UNAUTHORIZED)
+
+    def handle_exception(self, exc):
+        # Override the default exception handling to handle AuthenticationFailed
+        if isinstance(exc, AuthenticationFailed):
+            return Response({"detail": "invalid_access_token"}, status=status.HTTP_401_UNAUTHORIZED)
+        return super().handle_exception(exc)
+    
 
 class UserAuthTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -82,10 +96,6 @@ class LogoutView(APIView):
         # Blacklist both refresh token and access token
         try:
             RefreshToken(refresh_token).blacklist()
-            AccessToken().from_token_string(access_token).blacklist()
+            return Response({'detail':'User Successfully Logged out'}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'detail': str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
-       
-
-        return Response({'detail':'User Successfully Logged out'}, status=status.HTTP_200_OK)

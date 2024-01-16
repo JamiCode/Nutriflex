@@ -23,25 +23,31 @@ axios_.interceptors.response.use(
     const originalRequest = error.config;
 
     // If the error status is 401 and there is no originalRequest._retry flag,
-    // it means the token has expired and we need to refresh it
-    if (error.response.status >= 400 && !originalRequest._retry) {
+    // and response.data.detail is "bad_token", refresh the token
+    if (
+      error.response.status === 401 &&
+      !originalRequest._retry &&
+      error.response.data.detail === "invalid_access_token"
+    ) {
+      console.log(error.response.data);
       originalRequest._retry = true;
 
       try {
         const refreshToken = sessionStorage.getItem("refreshToken");
-        const response = await axios.post("/api/users/token/refresh", {
-          refreshToken,
+        const response = await axios_.post("/api/users/token/refresh", {
+          refresh: refreshToken,
         });
-        const { token, refresh } = response.data;
+        const { access, refresh } = response.data;
 
-        sessionStorage.setItem("accessToken", token);
+        sessionStorage.setItem("accessToken", access);
         sessionStorage.setItem("refreshToken", refresh);
 
         // Retry the original request with the new token
-        originalRequest.headers.Authorization = `Bearer ${token}`;
-        return axios(originalRequest);
+        originalRequest.headers.Authorization = `Bearer ${access}`;
+        return axios_(originalRequest);
       } catch (error) {
         // Handle refresh token error or redirect to login
+        console.log(error);
       }
     }
 

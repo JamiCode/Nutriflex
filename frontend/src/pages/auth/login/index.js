@@ -58,8 +58,7 @@ const Login = () => {
       router.push("/dashboard");
     } catch (error) {
       // Handle login error
-      console.log(error);
-      setErrorMessage("Incorrect Credentials");
+      setErrorMessage(error.response.data.detail);
     } finally {
       // Set loading back to false when the response is received
       setLoading(false);
