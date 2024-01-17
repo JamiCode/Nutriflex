@@ -4,10 +4,12 @@ from .models import WorkoutPlan, Task, FitnessProfile
 from django.contrib.auth.models import User
 from account.models import Account
 
+
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
         fields = ['description', 'date', 'ongoing']
+
 
 class WorkoutPlanSerializer(serializers.ModelSerializer):
     tasks = TaskSerializer(many=True)
@@ -15,6 +17,7 @@ class WorkoutPlanSerializer(serializers.ModelSerializer):
     class Meta:
         model = WorkoutPlan
         fields = ['description', 'tasks', 'is_completed', 'end_date']
+
 
 class FitnessProfileSerializer(serializers.ModelSerializer):
 

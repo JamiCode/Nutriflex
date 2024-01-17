@@ -22,6 +22,25 @@ def setup_clarifai_api():
     return stub, metadata, userDataObject
 
 
+def get_instructions():
+    """
+    Reads and returns the content of 'gpt_instructions.txt'.
+
+    Returns:
+    - str: The content of the 'gpt_instructions.txt' file.
+    """
+
+    try:
+        with open('gpt_instructions.txt', 'r') as file:
+            return file.read()
+    except FileNotFoundError:
+        print("Error: 'gpt_instructions.txt' file not found.")
+        return None
+    except Exception as e:
+        print(f"An error occurred while reading the file: {e}")
+        return None
+
+
 def get_model_outputs(model_id, model_version_id, raw_text):
     stub, metadata, userDataObject = setup_clarifai_api()
 
@@ -59,7 +78,7 @@ def process_user_input(raw_text):
 if __name__ == '__main__':
     model_id = 'gpt-4-turbo'
     model_version_id = '182136408b4b4002a920fd500839f2c8'
-    raw_text = 'I love your product very much'
+    raw_text = get_instructions()
 
     output = get_model_outputs(model_id, model_version_id, raw_text)
     print(output.data.text.raw)

@@ -9,8 +9,6 @@ class Task(models.Model):
     description = models.TextField()
     is_done = models.BooleanField(default=False)
 
-
-
     def __str__(self):
         return self.description
 
@@ -45,9 +43,11 @@ class FitnessProfile(models.Model):
         # BMI calculation: BMI = weight (kg) / (height (m))^2
         height_in_meters = self.height / 100  # Convert height to meters
         return round(self.weight / (height_in_meters ** 2), 2)
+
     def get_nutrition_plan(self):
         #  Mockdata, expecting from bot
         return "Avoid eating sugar"
+
     def get_workout_plan(self):
         pass
         
