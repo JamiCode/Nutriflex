@@ -34,7 +34,7 @@ const WorkoutFormManager = ({ user }) => {
       activity_level: globalFormState.activityLevel,
       smoking_habit: globalFormState.smokingHabit,
       dietary_preference: globalFormState.dietaryPreference,
-      dueration: `${globalFormState.durationNumber}${globalFormState.durationUnits}`,
+      duration: `${globalFormState.durationNumber}${globalFormState.durationUnits}`,
     };
     try {
       const createWorkoutPlanResponse = await axios_.post(
@@ -44,7 +44,7 @@ const WorkoutFormManager = ({ user }) => {
       );
       console.log(createWorkoutPlanResponse.data);
       setIsGenerateWorkoutPlanLoading(false);
-      window.location.pathname = "/dashboard";
+      window.location.pathname = "/da";
     } catch (error) {
       console.log(error);
     }

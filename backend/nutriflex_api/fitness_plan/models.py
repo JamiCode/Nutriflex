@@ -7,8 +7,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 class Task(models.Model):
     description = models.TextField()
-    date = models.DateTimeField(auto_now_add=False)
-    ongoing = models.BooleanField(default=False)
+    is_done = models.BooleanField(default=False)
 
 
 
