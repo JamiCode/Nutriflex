@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap");
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+/* Add the following styles to your global.css or a specific CSS file */
+
+.feature-container,
+.problem-container,
+.solution-container,
+.contact-container {
+  border: 2px solid #4a5568; /* Border color */
+  border-radius: 8px; /* Border radius */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Box shadow */
+  padding: 20px; /* Padding inside the container */
+  transition: transform 0.3s ease-in-out; /* Animation */
+}
+
+/* Hover animation */
+.feature-container:hover,
+.problem-container:hover,
+.solution-container:hover,
+.contact-container:hover {
+  transform: scale(1.05); /* Scale on hover */
+}
+
+* Firefox-like scrollbar style */
+/* Set the width and height of the scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 6px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #333; /* Dark background color */
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #555; /* Darker thumb color */
+  border-radius: 3px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #777; /* Lighter thumb color on hover */
+}
+
+/* Example: Add font-family definition to your CSS file or global styles */
+.font-orbitron {
+  font-family: "Orbitron", sans-serif;
+}

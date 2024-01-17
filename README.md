@@ -2,6 +2,8 @@
 
 ## Overview
 
+#### Current Status : Under development
+
 Welcome to Nutri Flex, your ultimate fitness companion powered by artificial intelligence! This application aims to revolutionize the fitness experience by providing personalized workout plans, real-time progress analysis, and AI-powered encouragement to keep you motivated on your journey to optimal health.
 
 ## Problem Statement
@@ -30,4 +32,10 @@ Nutri Flex utilizes a powerful combination of technologies to deliver a seamless
 
 Nutri Flex integrates Clarifai AI to enhance its capabilities, particularly in image recognition for workout form assessment and video analysis for personalized feedback. The AI ensures accuracy in exercise execution and provides valuable insights to improve your performance.
 
+## Make migrations
 
+`python3 ./backend/nutriflex_api/manage.py makemigrations`
+
+`python3 ./backend/nutriflex_api/manage.py migrate`
+
+`python3 ./backend/nutriflex_api/manage.py createsuperuser`
