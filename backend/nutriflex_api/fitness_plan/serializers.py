@@ -27,6 +27,10 @@ class FitnessProfileSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         print(validated_data)
+
+        # Make Bot call for workoutplan json data
+        
+        # then create fittness_plan, with  workout bot data
         fitness_plan = FitnessProfile.objects.create( **validated_data)
         print("All good")
         return fitness_plan

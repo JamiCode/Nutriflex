@@ -92,7 +92,8 @@ body {
   background: #777; /* Lighter thumb color on hover */
 }
 
+
 /* Example: Add font-family definition to your CSS file or global styles */
 .font-orbitron {
-  font-family: "Orbitron", sans-serif;
+  font-family: 'Orbitron', sans-serif;
 }
