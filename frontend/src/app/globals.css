@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap");
 
 :root {
   --foreground-rgb: 0, 0, 0;
@@ -47,7 +48,6 @@ body {
   transform: scale(1.05); /* Scale on hover */
 }
 
-
 * Firefox-like scrollbar style */
 /* Set the width and height of the scrollbar */
 ::-webkit-scrollbar {
@@ -71,7 +71,6 @@ body {
   background: #555;
 }
 
-
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;
@@ -91,4 +90,9 @@ body {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #777; /* Lighter thumb color on hover */
+}
+
+/* Example: Add font-family definition to your CSS file or global styles */
+.font-orbitron {
+  font-family: "Orbitron", sans-serif;
 }

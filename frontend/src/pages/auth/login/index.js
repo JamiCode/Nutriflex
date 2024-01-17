@@ -7,6 +7,7 @@ import NavBar from "@/components/NavBar";
 import "../../../app/globals.css";
 import AuthContext from "@/components/AuthProvider";
 import axios_ from "@/api/axios";
+import AuthenticatedNavBar from "@/components/AuthenticatedNavBar";
 
 const LOGIN_URL = "/api/users/token";
 

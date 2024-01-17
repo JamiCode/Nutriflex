@@ -162,3 +162,5 @@ cython_debug/
 #.idea/
 
 backend/nutriflex_api/account/migrations/0001_initial.py
+
+backend/nutriflex_api/fitness_plan/migrations/

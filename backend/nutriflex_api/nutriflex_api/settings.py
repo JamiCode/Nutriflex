@@ -26,7 +26,35 @@ SECRET_KEY = 'django-insecure-bs9*9ha6jdvyz)k+bm6j!pglc)#2&eu!%@f#cq_3m0%6k-)()3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    
+]
+
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+
+CORS_ALLOW_METHODS = (
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+)
+
+CORS_ALLOW_HEADERS = (
+    "accept",
+    "authorization",
+    "content-type",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+)
+
+# Set the following if you want to allow credentials (cookies, authorization headers, etc.)
+CORS_ALLOW_CREDENTIALS = True
 
 
 # Application definition
@@ -41,6 +69,7 @@ INSTALLED_APPS = [
     'corsheaders',
     "rest_framework",
     "account",
+    "fitness_plan",
     "drf_yasg",
     "rest_framework_simplejwt.token_blacklist"
 ]
@@ -93,12 +122,12 @@ SIMPLE_JWT = {
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'nutriflex_api.urls'
@@ -176,11 +205,3 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-]
-
-
-# Set the following if you want to allow credentials (cookies, authorization headers, etc.)
-CORS_ALLOW_CREDENTIALS = True

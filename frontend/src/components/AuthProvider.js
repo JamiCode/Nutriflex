@@ -6,6 +6,7 @@ const AuthContext = React.createContext({
   auth: false,
   setAuth: () => {},
   user: {},
+  setUser: () => {},
   accessToken: "",
   setAccessToken: () => {},
   refreshToken: "",
@@ -33,10 +34,8 @@ export const AuthProvider = ({ children }) => {
       const sessionStorageAccessToken =
         sessionStorage.getItem("accessToken") || "";
       const sessionStorageRefreshToken = sessionStorage.getItem("refreshToken");
-      setAccessToken(sessionStorageAccessToken)
-      setRefreshToken(sessionStorageRefreshToken)
-      console.log(sessionStorageAccessToken);
-      console.log(sessionStorageRefreshToken);
+      setAccessToken(sessionStorageAccessToken);
+      setRefreshToken(sessionStorageRefreshToken);
 
       if (!sessionStorageAccessToken) {
         setAuth(false);
@@ -60,6 +59,7 @@ export const AuthProvider = ({ children }) => {
         setAccessToken,
         refreshToken,
         setRefreshToken,
+        setUser,
       }}
     >
       {children}
