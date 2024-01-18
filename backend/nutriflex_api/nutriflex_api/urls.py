@@ -23,5 +23,5 @@ urlpatterns = [
     path('docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('api/users/', include('account.urls')),
     path('api/workout-plan/<int:user_id>', views.UserWorkoutPlanView.as_view(), name='list-workout'),
-    path('api/workout-plan/create/', views.FitnessProfileCreateAPIView.as_view(), name='create-workoutdata')
+    path('api/workout-plan/create', views.FitnessProfileCreateAPIView.as_view(), name='create-workoutdata')
 ]

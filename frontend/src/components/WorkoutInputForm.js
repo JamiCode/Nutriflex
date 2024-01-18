@@ -38,13 +38,13 @@ const WorkoutFormManager = ({ user }) => {
     };
     try {
       const createWorkoutPlanResponse = await axios_.post(
-        "/api/workout-plan/create/",
+        "/api/workout-plan/create",
         workoutPlanBody,
         { withCredentials: true }
       );
       console.log(createWorkoutPlanResponse.data);
       setIsGenerateWorkoutPlanLoading(false);
-      window.location.pathname = "/da";
+      window.location.pathname = "/dashboard";
     } catch (error) {
       console.log(error);
     }

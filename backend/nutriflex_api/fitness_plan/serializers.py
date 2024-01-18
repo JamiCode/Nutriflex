@@ -1,8 +1,12 @@
 # account/serializers.py
 from rest_framework import serializers
-from .models import WorkoutPlan, Task, FitnessProfile
+from datetime import datetime, timedelta
 from django.contrib.auth.models import User
+from django.utils import timezone
 from account.models import Account
+from .models import WorkoutPlan, Task, FitnessProfile
+from .services import create_new_tasks_
+
 
 
 class TaskSerializer(serializers.ModelSerializer):
@@ -29,12 +33,25 @@ class FitnessProfileSerializer(serializers.ModelSerializer):
         ]
 
     def create(self, validated_data):
-        print(validated_data)
 
-        # Make Bot call for workoutplan json data
-        
-        # then create fittness_plan, with  workout bot data
-        fitness_plan = FitnessProfile.objects.create( **validated_data)
+        user = validated_data.get('user')
+
+
+        #  Bot creates user task
+        task_data_list = [
+            {'description': 'Task 1', 'is_done': False, 'duration': '30 mins', 'day_to_be_done': '2024-01-20'},
+            {'description': 'Task 2', 'is_done': False, 'duration': '45 mins', 'day_to_be_done': '2024-01-21'},
+            {'description': 'Task 3', 'is_done': False, 'duration': '60 mins', 'day_to_be_done': '2024-01-22'},
+        ]
+
+        tasks_list = create_new_tasks_(validated_data)
+        workout_plan_obj = WorkoutPlan.objects.create(description="Sample Workout Plan", is_completed=False, fitness_profile_name=f"{user.first_name} {user.last_name}")
+        tasks = [Task.objects.create(**task_data) for task_data in tasks_list]
+        workout_plan_obj.tasks.set(tasks)
+
+
+        fitness_profile_obj = FitnessProfile.objects.create(workout_plan=workout_plan_obj, **validated_data)
+
         print("All good")
-        return fitness_plan
+        return fitness_profile_obj
     

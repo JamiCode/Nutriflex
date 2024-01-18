@@ -1,12 +1,29 @@
 from clarifai_client import create_new_tasks, update_tasks, build_instruction_set
 import json
+import time
 
 if __name__ == '__main__':
-    user_data = {'age': 25, 'weight': 120, 'height': 190, "goals": ["become a better sumo wrestler", "gain mass"]}
-    #print(build_instruction_set('create', user_data))
-    tasks = create_new_tasks(user_data)['tasks']
-    #print(json.dumps(tasks, indent=4))
+    user_data = {
+        'age': 25,
+        'weight': 20,
+        'height': 190,
+        'bmi':33.24,
+        'goals': ["Cardiovascular Fitness"],
+        'activity_level': "Moderately Active",
+        'smoking_habit': "Non-Smoker",
+        'dietary_preference': "Omnivore"
+    }
+    print(build_instruction_set('create', user_data))
+    print("-------------------------------------")
+    print('check')
 
+    print("creating new tasks")
+    print("-------------------------------------")
+    tasks = create_new_tasks(user_data)['tasks']
+    print(json.dumps(tasks, indent=4))
+
+
+    time.sleep(20)
     week_report = {
         'completed_tasks': '7/7',
         'week_weight_change': '+1kg',

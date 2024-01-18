@@ -7,7 +7,10 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 class Task(models.Model):
     description = models.TextField()
-    is_done = models.BooleanField(default=False)
+    is_done = models.BooleanField(default=False, null=False)
+    duration = models.CharField(max_length=20, null=True)
+    day_to_be_done = models.DateField(auto_now_add=False, null=True)
+    
 
     def __str__(self):
         return self.description
@@ -15,13 +18,13 @@ class Task(models.Model):
 
 class WorkoutPlan(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    fitness_profile_name = models.CharField(max_length=255, null=True)
     description = models.TextField()  
     tasks = models.ManyToManyField(Task, blank=True)
     is_completed = models.BooleanField(default=False)
-    end_date = models.DateField(null=False, blank=False)  # Add the end_date field
 
     def __str__(self):
-        return f"{self.description} - {'' if self.is_completed else 'Not '}Completed"
+        return f"{self.fitness_profile_name} | Workout"
 
 
 class FitnessProfile(models.Model):

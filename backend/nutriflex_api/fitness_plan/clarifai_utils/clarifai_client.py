@@ -33,7 +33,8 @@ def get_instructions(type_):
     try:
         with open(f'gpt_{type_}_instructions.txt', 'r') as file:
             return file.read()
-    except FileNotFoundError:
+    except FileNotFoundError as er:
+        print(er)
         print("Error: 'gpt_create_instructions.txt' file not found.")
         return None
     except Exception as e:
