@@ -1,9 +1,9 @@
-# import required packages
 from clarifai_grpc.channel.clarifai_channel import ClarifaiChannel
 from clarifai_grpc.grpc.api import service_pb2, service_pb2_grpc, resources_pb2
 from clarifai_grpc.grpc.api.status import status_code_pb2
 from dotenv import load_dotenv
 import os
+import json
 
 load_dotenv()
 
@@ -22,22 +22,41 @@ def setup_clarifai_api():
     return stub, metadata, userDataObject
 
 
-def get_instructions():
+def get_instructions(type_):
     """
-    Reads and returns the content of 'gpt_instructions.txt'.
+    Reads and returns the content of 'gpt_create_instructions.txt'.
 
     Returns:
-    - str: The content of the 'gpt_instructions.txt' file.
+    - str: The content of the 'gpt_create_instructions.txt' file.
     """
 
     try:
-        with open('gpt_instructions.txt', 'r') as file:
+        with open(f'gpt_{type_}_instructions.txt', 'r') as file:
             return file.read()
     except FileNotFoundError:
-        print("Error: 'gpt_instructions.txt' file not found.")
+        print("Error: 'gpt_create_instructions.txt' file not found.")
         return None
     except Exception as e:
         print(f"An error occurred while reading the file: {e}")
+        return None
+
+
+def build_instruction_set(type_, user_data, previous_tasks=None, week_report=None):
+    """
+    Builds the instruction set for the GPT model.
+
+    Args:
+    - type_ (str): The type of instruction set to build. Can be either 'create' or 'update'.
+
+    Returns:
+    - str: The instruction set.
+    """
+    if type_ == "create":
+        return get_instructions('create') + '\nUser data: ' + str(user_data)
+    if type_ == "update":
+        return (get_instructions('create') + '\nUser data: ' + str(user_data) + '\nPrevious Tasks:' +
+                str(previous_tasks) + '\nLast week report: ' + str(week_report) + '\n' + get_instructions('update'))
+    else:
         return None
 
 
@@ -75,10 +94,46 @@ def process_user_input(raw_text):
     return get_model_outputs(model_id, model_version_id, raw_text).data.text.raw
 
 
-if __name__ == '__main__':
+def format_output(output):
+    try:
+        output_dict = json.loads(output.replace('```', '').replace('json', ''))
+        return output_dict
+    except json.JSONDecodeError as e:
+        # Handle the exception if the string is not valid JSON
+        print(f"Error decoding JSON: {e}")
+        return None
+
+
+def create_new_tasks(user_data):
+    """
+    Creates new tasks based on the user's data.
+
+    Args:
+    - user_data (dict): The user's data.
+
+    Returns:
+    - list: A list of tasks.
+    """
     model_id = 'gpt-4-turbo'
     model_version_id = '182136408b4b4002a920fd500839f2c8'
-    raw_text = get_instructions()
+    instruction_set = build_instruction_set('create', user_data)
 
-    output = get_model_outputs(model_id, model_version_id, raw_text)
-    print(output.data.text.raw)
+    return format_output(get_model_outputs(model_id, model_version_id, instruction_set).data.text.raw)
+
+
+def update_tasks(user_data, previous_tasks, week_report):
+    """
+    Updates the user's tasks based on the week report.
+
+    Args:
+    - user_data (dict): The user's data.
+    - week_report (dict): The week report.
+
+    Returns:
+    - list: A list of tasks.
+    """
+    model_id = 'gpt-4-turbo'
+    model_version_id = '182136408b4b4002a920fd500839f2c8'
+    instruction_set = build_instruction_set('update', previous_tasks, user_data, week_report)
+
+    return format_output(get_model_outputs(model_id, model_version_id, instruction_set).data.text.raw)
