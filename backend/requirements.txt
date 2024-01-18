@@ -20,6 +20,7 @@ packaging==23.2
 protobuf==4.25.2
 pycparser==2.21
 PyJWT==2.8.0
+python-dotenv==1.0.0
 pytz==2023.3.post1
 PyYAML==6.0.1
 referencing==0.32.1
