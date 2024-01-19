@@ -2,14 +2,15 @@ from django.shortcuts import render
 
 # Create your views here.
 # account/views.py
+from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
-from .models import FitnessProfile, WorkoutPlan
-from .serializers import WorkoutPlanSerializer
+from .models import FitnessProfile, NutritionMeal, WorkoutPlan
+from .serializers import NutritionMealSerializer, WorkoutPlanSerializer
 
 from rest_framework import status
 from rest_framework.response import Response
@@ -80,29 +81,39 @@ class WorkOutPlanListView(APIView):
         except IndexError:
             Response({"data":[]})
 
-
-
-class WorkOutPlanView(APIView):
-    serializer_class = WorkoutPlanSerializer
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request, *args, **kwargs):
-        # Accessing query parameters
-        param_value = request.GET.get('param_name', 'default_value')
-
-        # Your API view logic here
-        return Response({'param_value': param_value})
-    
-
-
 class TaskListView(ListAPIView):
+    """" Endpoints sends a list of tasks that arent completed"""
     serializer_class = TaskSerializer
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-       workoutplan_id = self.kwargs.get('workoutplan_id')
-       workout_plan = WorkoutPlan.objects.get(pk=workoutplan_id)
-       return workout_plan.tasks
+        workoutplan_id = self.kwargs.get('workoutplan_id')
+        workout_plan = WorkoutPlan.objects.get(pk=workoutplan_id)
+        
+        # Filter tasks where is_done is False
+        tasks = workout_plan.tasks.filter(is_done=False)
+        
+        return tasks
     
+
+
+class SetTaskCompleted(APIView):
+    serializer_class = TaskSerializer
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        task_id = self.kwargs.get('task_id')
+
+        tasks_obj = get_object_or_404(Task, id=task_id)
+
+        tasks_obj.is_done = True
+
+        tasks_obj.save()
+
+        return Response({'data': 'Changed resource successfully'})
+    
+class NutritionMealViewSet(viewsets.ModelViewSet):
+    queryset = NutritionMeal.objects.all()
+    serializer_class = NutritionMealSerializer

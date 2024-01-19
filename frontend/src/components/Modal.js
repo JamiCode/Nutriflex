@@ -14,6 +14,7 @@ export default function Modal({
       open={isOpen}
       onClose={onClose}
       className="fixed inset-0 z-50 overflow-auto"
+      unmount
     >
       <div className="fixed inset-0 bg-black/50" aria-hidden="true" />
       <div className="fixed inset-0 flex items-center justify-center p-4">

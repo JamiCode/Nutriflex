@@ -5,6 +5,16 @@ from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 
+
+
+class NutritionMeal(models.Model):
+    description = models.CharField(max_length=255)
+    food_suggestions = models.JSONField()
+    calories = models.IntegerField()
+    
+
+
+
 class Task(models.Model):
     description = models.TextField()
     is_done = models.BooleanField(default=False, null=False)
@@ -22,6 +32,7 @@ class WorkoutPlan(models.Model):
     fitness_profile_name = models.CharField(max_length=255, null=True)
     description = models.TextField()  
     tasks = models.ManyToManyField(Task, blank=True)
+    nutrition_meals = models.ManyToManyField(NutritionMeal, blank=True)
     is_completed = models.BooleanField(default=False)
 
     def __str__(self):
@@ -40,16 +51,11 @@ class FitnessProfile(models.Model):
 
     dietary_preference = models.CharField(null=False, max_length=255, blank=False, default="No Idea")
     workout_plan = models.ForeignKey(WorkoutPlan, on_delete=models.SET_NULL, null=True, blank=True)
-    nutrition_plan = models.TextField(null=True, blank=True)
-
+   
     def calculate_bmi(self):
         # BMI calculation: BMI = weight (kg) / (height (m))^2
         height_in_meters = self.height / 100  # Convert height to meters
         return round(self.weight / (height_in_meters ** 2), 2)
-
-    def get_nutrition_plan(self):
-        #  Mockdata, expecting from bot
-        return "Avoid eating sugar"
 
     def get_workout_plan(self):
         pass
@@ -58,9 +64,6 @@ class FitnessProfile(models.Model):
 
         # Automatically calculate and save BMI when saving the object
         self.bmi = self.calculate_bmi()
-
-        # Automatically generate and save the nutrition plan when saving the object
-        self.nutrition_plan = self.get_nutrition_plan()
         super().save(*args, **kwargs)
 
     def __str__(self):

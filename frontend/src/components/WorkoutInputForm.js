@@ -17,6 +17,7 @@ const WorkoutFormManager = ({ user }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [apiStatus, setApiStatus] = useState(null);
+  
 
   useEffect(() => {
     if (isGenerateWorkoutPlanLoading) {

@@ -14,13 +14,18 @@ def create_new_tasks_(validated_data):
     bot_response = create_new_tasks(validated_data) 
     name = bot_response['name']
     tasks = bot_response["tasks"]
-    nutrition = bot_response["nutrition"]
+    nutrition_unserialized = bot_response["nutrition"]
     overview = bot_response['overview']
 
-    seven_days = generate_next_seven_days()
 
+    nutrition_list = []
+
+    for nutrition_meal in nutrition_unserialized.values():
+        nutrition_list.append(nutrition_meal)
+
+    seven_days = generate_next_seven_days()
     # Add 'day_to_be_done' key to each dictionary in tasks_list
     for index, task in enumerate(tasks):
         task['day_to_be_done'] = seven_days[index] 
     #return a tuple in the order of (name, nutrition_plan, overview task_list)
-    return (name, nutrition, overview, tasks)
+    return (name, nutrition_list, overview, tasks)

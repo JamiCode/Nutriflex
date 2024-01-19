@@ -8,6 +8,7 @@ import WorkoutFormManager from "@/components/WorkoutInputForm";
 import { WorkoutFormProvider } from "@/components/WorkoutFormProvider";
 import WorkoutPlanCard from "@/components/WorkoutPlanCard";
 import DashBoardMessage from "@/components/DashBoardMessage";
+import ThreeContainersComponent from "@/components/ThreeContainersComponent";
 const Dashboard = () => {
   // const { user, setAuth, setUser } = useContext(AuthContext);
   const [selectedTab, setSelectedTab] = useState("workout");
@@ -47,13 +48,17 @@ const Dashboard = () => {
         const workoutPlanDataResponse = await axios_.get(
           "/api/workout-plans/view"
         );
+        const nutritionDataResponse = await axios_.get(
+          "/api/workout-plan/nutrition"
+        );
+
         const workoutPlanData = workoutPlanDataResponse.data.data[0];
-        console.log(workoutPlanData);
         setWorkOutPlanState({
           workout_id: workoutPlanData.id,
           name: workoutPlanData.name,
           description: workoutPlanData.description,
           is_completed: workoutPlanData.is_completed,
+          nutrition_meals: nutritionDataResponse.data,
         });
       } catch (error) {
         console.log(error);
@@ -114,15 +119,15 @@ const Dashboard = () => {
             <div className="border-r border-black border-opacity-75 h-8"></div>
             <div
               className={`group flex items-center px-4 py-2 bg-blue-gray-800 border border-black border-solid border-opacity-75 rounded-lg ${
-                selectedTab === "progress"
+                selectedTab === "nutrition"
                   ? "bg-opacity-100"
                   : "hover:bg-opacity-100"
               }`}
-              onClick={() => changeTab("progress")}
+              onClick={() => changeTab("nutrition")}
             >
               <TabButton
                 label="Nutrition Plan"
-                selected={selectedTab === "progress"}
+                selected={selectedTab === "nutrition"}
               />
             </div>
           </div>
@@ -177,12 +182,15 @@ const Dashboard = () => {
               )}
             </div>
           )}
-          <hr className="my-4 border-t-2 border-red-500" />
           {selectedTab === "nutrition" && (
-            <p className="text-2xl font-bold mb-4">Nutrition Plans</p>
-          )}
-          {selectedTab === "progress" && (
-            <p className="text-2xl font-bold mb-4">(Progress Report)</p>
+            <div className="mb-8">
+              <h1 className="text-2xl font-bold mb-4 text-white">
+                Your Nutrition Plan
+              </h1>
+              <ThreeContainersComponent
+                nutrition_meals={workoutPlanState.nutrition_meals}
+              />
+            </div>
           )}
         </div>
       </div>

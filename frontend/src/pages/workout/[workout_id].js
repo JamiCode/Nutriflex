@@ -31,10 +31,10 @@ const WorkOutDashBoard = () => {
   return (
     <div className="bg-gray-800 text-white min-h-screen font-sans flex">
       <div className="flex-1 items-center">
-        {/* <AuthenticatedNavBar
+        <AuthenticatedNavBar
           userFirstName={user.first_name}
           userLastName={user.last_name}
-        /> */}
+        />
 
         <div
           className="flex flex-col p-6 bg-gray-800 rounded-lg shadow-lg mt-8 sm:mt-12 md:mt-16 lg:mt-20 xl:mt-24 w-full lg:w-2/3 xl:w-2/3 min-h-[300px]"
