@@ -11,7 +11,7 @@ def generate_next_seven_days():
 
 
 def create_new_tasks_(validated_data):
-    print(validated_data, "poop")
+    print(validated_data)
     tasks_list = create_new_tasks(validated_data)["tasks"]
     seven_days = generate_next_seven_days()
 
