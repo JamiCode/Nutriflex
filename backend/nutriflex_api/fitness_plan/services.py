@@ -9,6 +9,7 @@ def generate_next_seven_days():
     next_seven_days = [today + timedelta(days=i) for i in range(7)]
     return next_seven_days
 
+
 def create_new_tasks_(validated_data):
     print(validated_data, "poop")
     tasks_list = create_new_tasks(validated_data)["tasks"]

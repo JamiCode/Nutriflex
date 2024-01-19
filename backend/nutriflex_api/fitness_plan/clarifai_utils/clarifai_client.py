@@ -42,7 +42,7 @@ def get_instructions(type_):
         return None
 
 
-def build_instruction_set(type_, user_data, previous_tasks=None, week_report=None):
+def build_instruction_set(type_, user_data, previous_nutrition=None, previous_tasks=None, week_report=None):
     """
     Builds the instruction set for the GPT model.
 
@@ -55,8 +55,9 @@ def build_instruction_set(type_, user_data, previous_tasks=None, week_report=Non
     if type_ == "create":
         return get_instructions('create') + '\nUser data: ' + str(user_data)
     if type_ == "update":
-        return (get_instructions('create') + '\nUser data: ' + str(user_data) + '\nPrevious Tasks:' +
-                str(previous_tasks) + '\nLast week report: ' + str(week_report) + '\n' + get_instructions('update'))
+        return (get_instructions('update') + '\nUser data: ' + str(user_data) + '\nPrevious Nutrition: '
+                + str(previous_nutrition) + '\nPrevious Tasks: ' + str(previous_tasks) + '\nLast week report: '
+                + str(week_report))
     else:
         return None
 
@@ -122,7 +123,7 @@ def create_new_tasks(user_data):
     return format_output(get_model_outputs(model_id, model_version_id, instruction_set).data.text.raw)
 
 
-def update_tasks(user_data, previous_tasks, week_report):
+def update_tasks(user_data, previous_nutrition, previous_tasks, week_report):
     """
     Updates the user's tasks based on the week report.
 
@@ -135,6 +136,6 @@ def update_tasks(user_data, previous_tasks, week_report):
     """
     model_id = 'gpt-4-turbo'
     model_version_id = '182136408b4b4002a920fd500839f2c8'
-    instruction_set = build_instruction_set('update', previous_tasks, user_data, week_report)
+    instruction_set = build_instruction_set('update', previous_nutrition, previous_tasks, user_data, week_report)
 
     return format_output(get_model_outputs(model_id, model_version_id, instruction_set).data.text.raw)

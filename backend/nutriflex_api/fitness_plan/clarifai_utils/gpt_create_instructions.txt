@@ -1,0 +1,34 @@
+Your objective is to create a set of tasks for a fitness plan based on current user data and goals.
+Your response should be in json format only in the following format:
+{
+  "name": "Fitness Plan name according to user goals.",
+  "nutrition": {
+    "meal1":
+        {
+            "description": "Breakfast",
+            "food_suggestions": [ "Eggs", "Oatmeal", "Fruit", "Yogurt" ],
+            "calories": 500
+        },
+    "meal2":
+        {
+            "description": "Lunch",
+            "food_suggestions": [ "Chicken", "Salad", "Sandwich", "Soup" ],
+            "calories": 500
+        },
+    },
+  "tasks": [
+    {
+      "description": "Engage in gentle flexibility exercises, such as stretching or yoga, to maintain joint range of motion and reduce stiffness.",
+      "duration": "1 hour"
+    },
+    {
+      "description": "Light resistance training, using bands or light weights, to strengthen muscles and support bone health",
+      "duration": "1 hour"
+    }
+  ],
+  "overview": "Short explanation of the goals for the week"
+}
+Return a total of 7 tasks that the user will have 7 days to complete.
+Each task should be a specific task designed for this specific user and goals and should be a task that can be completed (not a routine/daily task).
+Weight and height are in metric units.
+Do not recommend talking to a doctor or specialist as a task.

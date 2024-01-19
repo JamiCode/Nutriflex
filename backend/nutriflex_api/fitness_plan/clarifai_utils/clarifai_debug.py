@@ -7,11 +7,11 @@ if __name__ == '__main__':
         'age': 25,
         'weight': 20,
         'height': 190,
-        'bmi':33.24,
-        'goals': ["Cardiovascular Fitness"],
+        'bmi': 33.24,
+        'goals': ["Gain weight while also increasing mobility, dexterity and flexibility"],
         'activity_level': "Moderately Active",
         'smoking_habit': "Non-Smoker",
-        'dietary_preference': "Omnivore"
+        'dietary_preference': "Vegetarian"
     }
     print(build_instruction_set('create', user_data))
     print("-------------------------------------")
@@ -19,18 +19,21 @@ if __name__ == '__main__':
 
     print("creating new tasks")
     print("-------------------------------------")
-    tasks = create_new_tasks(user_data)['tasks']
-    print(json.dumps(tasks, indent=4))
-
+    output = create_new_tasks(user_data)
+    print(json.dumps(output, indent=4))
+    name = output['name']
+    nutrition = output['nutrition']
+    tasks = output['tasks']
+    overview = output['overview']
 
     time.sleep(20)
     week_report = {
         'completed_tasks': '7/7',
-        'week_weight_change': '+1kg',
-        'month_weight_change': '+3kg',
-        'comment': "I had trouble keeping up with tasks last week because I was really stressed out from work"
+        'week_weight_change': '-20kg',
+        'month_weight_change': '-40kg',
+        'comment': "I felt very weak with the nutrition recommended last week"
     }
 
-    # print(build_instruction_set('update', user_data, previous_tasks, week_report))
-    updated_tasks = update_tasks(user_data, tasks, week_report)
+    print(build_instruction_set('update', user_data, nutrition, tasks, week_report))
+    updated_tasks = update_tasks(user_data, nutrition, tasks, week_report)
     print(json.dumps(updated_tasks, indent=4))
