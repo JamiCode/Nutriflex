@@ -15,6 +15,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
+from rest_framework.generics import ListAPIView
 from .models import FitnessProfile, WorkoutPlan, Task
 from .serializers import FitnessProfileSerializer, WorkoutPlanSerializer, TaskSerializer
 
@@ -54,8 +55,54 @@ class FitnessProfileCreateAPIView(APIView):
         if fitness_plan_serializer.is_valid():
             fitness_plan_instance = fitness_plan_serializer.save()
             return Response(
-                {'details':fitness_plan_serializer.data, 'object':['Mock Data workout plan']}, 
+                {'details':"Workout Plan Created Successfully ", 'object':[1], "api_status":True}, 
                 status=status.HTTP_201_CREATED
             )
 
         return Response({'details':fitness_plan_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+class WorkOutPlanListView(APIView):
+    serializer_class = WorkoutPlanSerializer
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request, *args, **kwargs):
+        #Retrieve workoutplans for the authenticated user
+        try:
+            user = self.request.user
+            fitness_profile = FitnessProfile.objects.filter(user=user)[0]
+            workout_plans = WorkoutPlan.objects.filter(fitnessprofile=fitness_profile)
+            if  not workout_plans:
+                Response({"data":[]}, status=status.HTTP_200_OK)
+                return
+            serializer = self.serializer_class(workout_plans, many=True)
+            return Response({"data":serializer.data}, status=status.HTTP_200_OK)
+        except IndexError:
+            Response({"data":[]})
+
+
+
+class WorkOutPlanView(APIView):
+    serializer_class = WorkoutPlanSerializer
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        # Accessing query parameters
+        param_value = request.GET.get('param_name', 'default_value')
+
+        # Your API view logic here
+        return Response({'param_value': param_value})
+    
+
+
+class TaskListView(ListAPIView):
+    serializer_class = TaskSerializer
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+       workoutplan_id = self.kwargs.get('workoutplan_id')
+       workout_plan = WorkoutPlan.objects.get(pk=workoutplan_id)
+       return workout_plan.tasks
+    

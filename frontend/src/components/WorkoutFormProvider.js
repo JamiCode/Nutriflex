@@ -26,7 +26,6 @@ export const WorkoutFormProvider = ({ children }) => {
     activityLevel: "",
     smokingHabit: "",
     dietaryPreference: "",
-    duration:''
   });
   const router = useRouter();
 

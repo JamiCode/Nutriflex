@@ -1,12 +1,11 @@
-import React, { useContext, useState } from "react";
-import { css } from "@emotion/react";
-import ClipLoader from "react-spinners/ClipLoader";
+// WorkoutFormManager.js
+import React, { useContext, useState, useEffect } from "react";
 import BodyMeasurementsForm from "./forms/BodyMeasurementsForm";
 import GoalsActivityForm from "./forms/GoalsActivityForm";
 import LifestyleForm from "./forms/LifestyleForm";
 import WorkoutFormContext from "./WorkoutFormProvider";
-import AuthContext from "./AuthProvider";
 import axios_ from "@/api/axios";
+import Modal from "./Modal";
 
 const WorkoutFormManager = ({ user }) => {
   const { globalFormState, setGlobalFormState } =
@@ -14,6 +13,23 @@ const WorkoutFormManager = ({ user }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isGenerateWorkoutPlanLoading, setIsGenerateWorkoutPlanLoading] =
     useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [apiStatus, setApiStatus] = useState(null);
+
+  useEffect(() => {
+    if (isGenerateWorkoutPlanLoading) {
+      // Reset API status and loading state when the loading begins
+      setApiStatus(null);
+    }
+  }, [isGenerateWorkoutPlanLoading]);
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   const handleNext = () => {
     setCurrentStep((prevStep) => prevStep + 1);
@@ -24,7 +40,12 @@ const WorkoutFormManager = ({ user }) => {
   };
 
   const handleGenerateWorkoutPlan = async () => {
-    setIsGenerateWorkoutPlanLoading(true);
+    setIsLoading(true);
+    let smoking_habbit_value = "Non-Smoking";
+    if (globalFormState.smokingHabit) {
+      smoking_habbit_value = globalFormState.smokingHabit;
+    }
+
     const workoutPlanBody = {
       user: user.id,
       height: globalFormState.height,
@@ -32,21 +53,44 @@ const WorkoutFormManager = ({ user }) => {
       age: globalFormState.age,
       goals: globalFormState.goals,
       activity_level: globalFormState.activityLevel,
-      smoking_habit: globalFormState.smokingHabit,
+      smoking_habit: smoking_habbit_value,
       dietary_preference: globalFormState.dietaryPreference,
-      duration: `${globalFormState.durationNumber}${globalFormState.durationUnits}`,
     };
+
     try {
+      setIsModalOpen(true);
       const createWorkoutPlanResponse = await axios_.post(
         "/api/workout-plan/create",
         workoutPlanBody,
         { withCredentials: true }
       );
-      console.log(createWorkoutPlanResponse.data);
-      setIsGenerateWorkoutPlanLoading(false);
-      window.location.pathname = "/dashboard";
+
+      setApiStatus(createWorkoutPlanResponse.data.api_status);
+
+      // Simulate a delay to show the loading state
+      setTimeout(() => {
+        setIsLoading(false);
+
+        // Check if the API status is true
+        if (createWorkoutPlanResponse.data.api_status) {
+          setIsSuccess(true);
+        } else {
+          setIsSuccess(false);
+        }
+      }, 2000);
+      setTimeout(() => {
+        window.location.reload(true);
+      }, 3000);
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
+      setApiStatus("error");
+
+      // In case of an error, set isSuccess to false
+      setIsSuccess(false);
+
+      // Open the modal
+      setIsModalOpen(true);
     }
   };
 
@@ -68,9 +112,8 @@ const WorkoutFormManager = ({ user }) => {
       <h2 className="text-2xl font-bold mb-4 text-white">
         Create Your Workout Plan
       </h2>
-
       {renderCurrentForm()}
-
+      {/* buttons */}
       <div className="mt-4 flex justify-between">
         {currentStep > 1 && (
           <button
@@ -100,18 +143,16 @@ const WorkoutFormManager = ({ user }) => {
             onClick={handleGenerateWorkoutPlan}
             disabled={isGenerateWorkoutPlanLoading}
           >
-            {isGenerateWorkoutPlanLoading ? (
-              <ClipLoader
-                color="#ffffff"
-                loading={isGenerateWorkoutPlanLoading}
-                size={20}
-              />
-            ) : (
-              "Generate Workout Plan"
-            )}
+            Generate Workout Plan
           </button>
         )}
       </div>
+      <Modal
+        isOpen={isModalOpen}
+        isLoading={isLoading}
+        isSuccess={isSuccess}
+        onClose={closeModal}
+      />
     </div>
   );
 };

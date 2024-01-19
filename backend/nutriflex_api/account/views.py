@@ -96,6 +96,7 @@ class LogoutView(APIView):
         # Blacklist both refresh token and access token
         try:
             RefreshToken(refresh_token).blacklist()
+            # AccessToken(refresh_token).blacklist()
             return Response({'detail':'User Successfully Logged out'}, status=status.HTTP_200_OK)
         except Exception as e:
-            return Response({'detail': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'detail': str(e)})

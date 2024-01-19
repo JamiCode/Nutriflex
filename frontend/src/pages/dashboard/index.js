@@ -6,6 +6,8 @@ import "../../app/globals.css";
 import AuthenticatedNavBar from "@/components/AuthenticatedNavBar";
 import WorkoutFormManager from "@/components/WorkoutInputForm";
 import { WorkoutFormProvider } from "@/components/WorkoutFormProvider";
+import WorkoutPlanCard from "@/components/WorkoutPlanCard";
+import DashBoardMessage from "@/components/DashBoardMessage";
 const Dashboard = () => {
   // const { user, setAuth, setUser } = useContext(AuthContext);
   const [selectedTab, setSelectedTab] = useState("workout");
@@ -13,6 +15,7 @@ const Dashboard = () => {
   const [hasWorkout, setHasWorkout] = useState(true);
   const [isFormMounted, setIsFormMounted] = useState(false);
   const [user, setUser] = useState({});
+  const [workoutPlanState, setWorkOutPlanState] = useState({ name: "Loading" });
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -38,7 +41,28 @@ const Dashboard = () => {
         }
       }
     };
+
+    const fetchUserWorkOutPlanData = async () => {
+      try {
+        const workoutPlanDataResponse = await axios_.get(
+          "/api/workout-plans/view"
+        );
+        const workoutPlanData = workoutPlanDataResponse.data.data[0];
+        console.log(workoutPlanData);
+        setWorkOutPlanState({
+          workout_id: workoutPlanData.id,
+          name: workoutPlanData.name,
+          description: workoutPlanData.description,
+          is_completed: workoutPlanData.is_completed,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
     fetchUserData();
+    if (hasWorkout) {
+      fetchUserWorkOutPlanData();
+    }
   }, []);
 
   const handleWorkoutFormSubmit = async (formData) => {
@@ -64,10 +88,7 @@ const Dashboard = () => {
           userFirstName={user.first_name}
           userLastName={user.last_name}
         />
-        <h2>
-          {" "}
-          Hello {user.first_name}, {user.last_name}, {user.id}
-        </h2>
+        <DashBoardMessage first_name={user.first_name} />
         <div
           className="flex flex-col items-center p-6 bg-gray-800 rounded-lg shadow-lg mt-8 sm:mt-12 md:mt-16 lg:mt-20 xl:mt-24 w-full lg:w-2/3 xl:w-2/3 min-h-[300px]"
           style={{
@@ -110,7 +131,23 @@ const Dashboard = () => {
           {selectedTab === "workout" && (
             <div>
               {hasWorkout ? (
-                <p>Has Plan</p>
+                <div className="mb-8">
+                  <h1 className="text-2xl font-bold mb-4 text-white">
+                    Your Workout Plan
+                  </h1>
+                  <WorkoutPlanCard
+                    title={workoutPlanState.name}
+                    onClick={() =>
+                      router.push(`/workout/${workoutPlanState.workout_id}`)
+                    }
+                  />
+                  <button
+                    className="bg-red-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow-md"
+                    onClick={() => console.log(workoutPlanState)}
+                  >
+                    Delete
+                  </button>
+                </div>
               ) : isFormMounted ? (
                 <div>
                   <h4 className="text-lg font-semibold mb-2 text-white italic">

@@ -18,6 +18,7 @@ class Task(models.Model):
 
 class WorkoutPlan(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(default="Sample WorkoutPlan", max_length=20)
     fitness_profile_name = models.CharField(max_length=255, null=True)
     description = models.TextField()  
     tasks = models.ManyToManyField(Task, blank=True)
@@ -35,8 +36,7 @@ class FitnessProfile(models.Model):
     age = models.IntegerField(null=False, blank=False)
     goals = models.TextField(null=False, blank=False)
     activity_level = models.CharField(max_length=255, null=False,blank=False)
-    smoking_habit = models.CharField(null=False, max_length=255,blank=False)
-    duration = models.CharField(max_length=90, null=False, blank=False, default="1week")
+    smoking_habit = models.CharField(null=False, max_length=255,blank=False)   
 
     dietary_preference = models.CharField(null=False, max_length=255, blank=False, default="No Idea")
     workout_plan = models.ForeignKey(WorkoutPlan, on_delete=models.SET_NULL, null=True, blank=True)

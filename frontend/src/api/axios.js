@@ -27,7 +27,7 @@ axios_.interceptors.response.use(
     if (
       error.response.status === 401 &&
       !originalRequest._retry &&
-      error.response.data.detail === "invalid_access_token"
+      (error.response.data.detail === "invalid_access_token" || error.response.data.code === "token_not_valid") 
     ) {
       console.log(error.response.data);
       originalRequest._retry = true;

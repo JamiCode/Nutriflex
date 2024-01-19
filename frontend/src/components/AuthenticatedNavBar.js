@@ -1,92 +1,90 @@
-// AuthenticatedNavBar.js
-import React, { useState } from "react";
+import React from "react";
+import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faUser,
-  faSignOutAlt,
-  faBars,
-} from "@fortawesome/free-solid-svg-icons";
-
-const CustomLink = ({ href, children }) => (
-  <div className="text-lg text-light-gray hover:underline cursor-pointer">
-    {children}
-  </div>
-);
+import { faUser, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../app/globals.css";
+import axios_ from "@/api/axios";
+import { useRouter } from "next/router";
 
 const AuthenticatedNavBar = ({ userFirstName }) => {
-  const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const router = useRouter();
+  const handleLogout = async () => {
+    const access_token_data = sessionStorage.getItem("accessToken");
+    const refresh_token_data = sessionStorage.getItem("refreshToken");
 
-  const toggleDropdown = () => {
-    setDropdownOpen(!isDropdownOpen);
-  };
-
-  const closeDropdown = () => {
-    setDropdownOpen(false);
-  };
-
-  const handleLogout = () => {
-    console.log("Logout clicked!");
-    closeDropdown();
+    try {
+      const response = await axios_.post(
+        "/api/users/logout  ",
+        {
+          access_token: access_token_data,
+          refresh_token: refresh_token_data,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      sessionStorage.clear();
+      router.push("/");
+    } catch (error) {
+      console.log(error);
+      sessionStorage.clear();
+      router.push("/");
+    }
   };
 
   return (
-    <nav className="bg-sci-fi-blue"> {/* Update background color */}
-      <div className="container mx-auto flex justify-between items-center py-4">
-        <div className="flex items-center space-x-4">
-          <button
-            onClick={toggleDropdown}
-            className="text-white focus:outline-none md:hidden"
-          >
-            <FontAwesomeIcon icon={faBars} />
-          </button>
-          {/* Add your logo component or image here */}
-          {/* <img src="/path/to/your/logo.png" alt="Logo" className="h-10" /> */}
-        </div>
+    <Navbar
+      style={{
+        backgroundColor: "#3330E4",
+        position: "sticky",
+        top: 0,
+        zIndex: 1000,
+      }}
+      variant="dark"
+      expand="lg"
+    >
+      {/* Your Logo */}
+      <Navbar.Brand href="#home">
+        <img
+          src={
+            "https://media.discordapp.net/attachments/1192825905077309612/1197078880276713491/Nutriflex_logoT_2.png?ex=65b9f595&is=65a78095&hm=23b703afd2e4fbd09b079e3514540a37703271452cbdaf81db0850e038433681&=&format=webp&quality=lossless&width=455&height=455"
+          }
+          style={{
+            height: "4rem",
+            weight: "4rem",
+          }}
+        />
+      </Navbar.Brand>
 
-        <div className="flex items-center space-x-4 md:hidden">
-          {isDropdownOpen && (
-            <div className="fixed inset-0 bg-gray-800 bg-opacity-75 z-50"></div>
-          )}
-          {isDropdownOpen && (
-            <div className="fixed top-0 right-0 p-4 bg-gray-900 z-50">
-              <button
-                onClick={closeDropdown}
-                className="text-white focus:outline-none"
-              >
-                Close
-              </button>
-              <CustomLink href="/workoutplans">Workout Plans</CustomLink>
-              <div className="text-white cursor-pointer" onClick={handleLogout}>
-                <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
-                Logout
-              </div>
-            </div>
-          )}
-        </div>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
 
-        <div className="hidden md:flex items-center space-x-4">
-          <CustomLink href="/workoutplans">Workout Plans</CustomLink>
-          <div
-            className="text-lg text-white cursor-pointer"
-            onClick={toggleDropdown}
-          >
-            <FontAwesomeIcon icon={faUser} />
-            <span className="ml-2">{userFirstName}</span>
-          </div>
-          {isDropdownOpen && (
-            <div className="ml-2">
-              <button
-                onClick={handleLogout}
-                className="text-white hover:underline"
-              >
-                <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
-                Logout
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
-    </nav>
+      <Navbar.Collapse id="basic-navbar-nav">
+        <Nav className="mr-auto">
+          {/* Your other navigation links go here */}
+          <Nav.Link href="/workoutplans">Workout Plans</Nav.Link>
+        </Nav>
+
+        {/* User Profile Dropdown */}
+        <NavDropdown
+          title={
+            <span className="d-inline-block">
+              <FontAwesomeIcon icon={faUser} className="mr-2" />
+              {userFirstName}
+            </span>
+          }
+          id="basic-nav-dropdown"
+          align="end" // Align the dropdown to the right
+        >
+          <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
+          <NavDropdown.Divider />
+          <NavDropdown.Item onClick={handleLogout}>
+            <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
+            Logout
+          </NavDropdown.Item>
+        </NavDropdown>
+      </Navbar.Collapse>
+    </Navbar>
   );
 };
 

@@ -21,7 +21,7 @@ const LandingPage = () => {
         </p>
         <a
           href="/auth/register"
-          className="bg-blue-500 text-white font-bold py-3 px-6 rounded-full hover:bg-blue-700 transition duration-300"
+          className="bg-[#525CEB] text-white font-bold py-3 px-6 rounded-full hover:bg-blue-700 transition duration-300"
         >
           Get Started
         </a>

@@ -10,6 +10,7 @@ const LifestyleForm = () => {
     dietaryPreference: globalFormState.dietaryPreference,
     durationNumber: globalFormState.durationNumber,
     durationUnit: globalFormState.durationUnits, // Default unit is months
+    smokingHabit: globalFormState.smokingHabit, // Added smokingHabit to formData
   });
 
   const handleChange = (e) => {
@@ -27,14 +28,18 @@ const LifestyleForm = () => {
         >
           Smoking Habit
         </label>
-        <input
-          type="text"
+        <select
           name="smokingHabit"
           id="smokingHabit"
           onChange={handleChange}
           value={formData.smokingHabit}
           className="mt-1 p-2 w-full border rounded bg-gray-700 text-white"
-        />
+        >
+          <option value="nonSmoker">Non-Smoker</option>
+          <option value="occasionalSmoker">Occasional Smoker</option>
+          <option value="regularSmoker">Regular Smoker</option>
+          <option value="frequentSmoker">Frequent Smoker</option>
+        </select>
       </div>
 
       <div className="mb-4">
@@ -52,50 +57,12 @@ const LifestyleForm = () => {
           value={formData.dietaryPreference}
           className="mt-1 p-2 w-full border rounded bg-gray-700 text-white"
         />
-      </div>
-
-      <div className="mb-4 flex space-x-4">
-        <div>
-          <label
-            htmlFor="durationNumber"
-            className="block text-sm font-medium text-white"
-          >
-            Duration Number
-          </label>
-          <select
-            name="durationNumber"
-            id="durationNumber"
-            onChange={handleChange}
-            value={formData.durationNumber}
-            className="mt-1 p-2 w-full border rounded bg-gray-700 text-white"
-          >
-            {[...Array(10).keys()].map((num) => (
-              <option key={num + 1} value={num + 1}>
-                {num + 1}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div>
-          <label
-            htmlFor="durationUnit"
-            className="block text-sm font-medium text-white"
-          >
-            Duration Unit
-          </label>
-          <select
-            name="durationUnit"
-            id="durationUnit"
-            onChange={handleChange}
-            value={formData.durationUnit}
-            className="mt-1 p-2 w-full border rounded bg-gray-700 text-white"
-          >
-            <option value="months">Months</option>
-            <option value="weeks">Weeks</option>
-          </select>
-        </div>
-        <p onClick={() => console.log(globalFormState, user)}>k</p>
+        {/* Helper text */}
+        <p className="text-sm text-gray-400 mt-2">
+          Enter your dietary preference (e.g., vegetarian, vegan, nut-free).
+          What you prefer in your diet.
+        </p>
+        <span onClick={() => console.log(globalFormState)}> Click me</span>
       </div>
     </form>
   );
