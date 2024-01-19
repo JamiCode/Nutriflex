@@ -13,12 +13,12 @@ if __name__ == '__main__':
         'smoking_habit': "Non-Smoker",
         'dietary_preference': "Vegetarian"
     }
-    print(build_instruction_set('create', user_data))
-    print("-------------------------------------")
-    print('check')
+    # print(build_instruction_set('create', user_data))
+    # print("-------------------------------------")
+    # print('check')
 
-    print("creating new tasks")
-    print("-------------------------------------")
+    # print("creating new tasks")
+    # print("-------------------------------------")
     output = create_new_tasks(user_data)
     print(json.dumps(output, indent=4))
     name = output['name']
@@ -26,14 +26,14 @@ if __name__ == '__main__':
     tasks = output['tasks']
     overview = output['overview']
 
-    time.sleep(20)
-    week_report = {
-        'completed_tasks': '7/7',
-        'week_weight_change': '-20kg',
-        'month_weight_change': '-40kg',
-        'comment': "I felt very weak with the nutrition recommended last week"
-    }
+    # time.sleep(20)
+    # week_report = {
+    #     'completed_tasks': '7/7',
+    #     'week_weight_change': '-20kg',
+    #     'month_weight_change': '-40kg',
+    #     'comment': "I felt very weak with the nutrition recommended last week"
+    # }
 
-    print(build_instruction_set('update', user_data, nutrition, tasks, week_report))
-    updated_tasks = update_tasks(user_data, nutrition, tasks, week_report)
-    print(json.dumps(updated_tasks, indent=4))
+    # print(build_instruction_set('update', user_data, nutrition, tasks, week_report))
+    # updated_tasks = update_tasks(user_data, nutrition, tasks, week_report)
+    # print(json.dumps(updated_tasks, indent=4))

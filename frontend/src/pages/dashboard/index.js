@@ -84,11 +84,11 @@ const Dashboard = () => {
   return (
     <div className="bg-gray-800 text-white min-h-screen font-sans flex">
       <div className="flex-1 items-center">
-        <AuthenticatedNavBar
+        {/* <AuthenticatedNavBar
           userFirstName={user.first_name}
           userLastName={user.last_name}
-        />
-        <DashBoardMessage first_name={user.first_name} />
+        /> */}
+        {/* <DashBoardMessage first_name={user.first_name} /> */}
         <div
           className="flex flex-col items-center p-6 bg-gray-800 rounded-lg shadow-lg mt-8 sm:mt-12 md:mt-16 lg:mt-20 xl:mt-24 w-full lg:w-2/3 xl:w-2/3 min-h-[300px]"
           style={{
@@ -121,7 +121,7 @@ const Dashboard = () => {
               onClick={() => changeTab("progress")}
             >
               <TabButton
-                label="Progress Report"
+                label="Nutrition Plan"
                 selected={selectedTab === "progress"}
               />
             </div>
@@ -137,6 +137,7 @@ const Dashboard = () => {
                   </h1>
                   <WorkoutPlanCard
                     title={workoutPlanState.name}
+                    description={workoutPlanState.description}
                     onClick={() =>
                       router.push(`/workout/${workoutPlanState.workout_id}`)
                     }

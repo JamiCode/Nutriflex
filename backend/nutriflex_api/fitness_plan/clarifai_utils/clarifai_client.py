@@ -53,6 +53,7 @@ def build_instruction_set(type_, user_data, previous_nutrition=None, previous_ta
     - str: The instruction set.
     """
     if type_ == "create":
+        print(user_data, 'wisdoms')
         return get_instructions('create') + '\nUser data: ' + str(user_data)
     if type_ == "update":
         return (get_instructions('update') + '\nUser data: ' + str(user_data) + '\nPrevious Nutrition: '

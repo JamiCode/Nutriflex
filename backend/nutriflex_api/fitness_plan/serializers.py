@@ -30,7 +30,7 @@ class FitnessProfileSerializer(serializers.ModelSerializer):
         model = FitnessProfile
         fields = [
             'user', 'height', 'weight',  'age', 'goals', 'activity_level',
-            'smoking_habit', 'dietary_preference',
+            'smoking_habit', 'dietary_preference'
         ]
 
     def create(self, validated_data):
@@ -39,8 +39,16 @@ class FitnessProfileSerializer(serializers.ModelSerializer):
 
 
         #  Bot creates user task
-        tasks_list = create_new_tasks_(validated_data)
-        workout_plan_obj = WorkoutPlan.objects.create(description="Sample Workout Plan", is_completed=False, fitness_profile_name=f"{user.first_name} {user.last_name}")
+        bot_data = create_new_tasks_(validated_data)
+        tasks_list  = bot_data[-1]
+        workout_plan_name = bot_data[0]
+        overview = bot_data[-2]
+        workout_plan_obj = WorkoutPlan.objects.create(
+            name=workout_plan_name,
+            description=overview,
+            is_completed=False, 
+            fitness_profile_name=f"{user.first_name} {user.last_name}"
+            )
         tasks = [Task.objects.create(**task_data) for task_data in tasks_list]
         workout_plan_obj.tasks.set(tasks)
 
