@@ -26,11 +26,12 @@ if __name__ == '__main__':
     tasks = output['tasks']
     overview = output['overview']
 
+    print('The update')
     time.sleep(20)
+
     week_report = {
         'completed_tasks': '7/7',
         'week_weight_change': '-20kg',
-        'month_weight_change': '-40kg',
         'comment': "I felt very weak with the nutrition recommended last week"
     }
 
