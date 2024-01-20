@@ -8,18 +8,18 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
-from django.shortcuts import get_object_or_404
-from .models import FitnessProfile, NutritionMeal, WorkoutPlan
-from .serializers import NutritionMealSerializer, WorkoutPlanSerializer
-
 from rest_framework import status
 from rest_framework.response import Response
-from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, ListCreateAPIView
+from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404
 from .models import FitnessProfile, WorkoutPlan, Task
 from .serializers import FitnessProfileSerializer, WorkoutPlanSerializer, TaskSerializer
-
+from .models import FitnessProfile, NutritionMeal, WorkoutPlan
+from .serializers import NutritionMealSerializer, WorkoutPlanSerializer
+from .services import update_tasks_
+from .services import get_recently_issued_nutrition_meals_as_dict,get_tasks_for_fitness_profile
 
 class UserWorkoutPlanView(APIView):
     authentication_classes = [JWTAuthentication]
@@ -44,7 +44,7 @@ class UserWorkoutPlanView(APIView):
             return Response({"detail": "User does not have any fitness coming", "object": []}, status=status.HTTP_404_NOT_FOUND)
 
 
-class FitnessProfileCreateAPIView(APIView):
+class WorkoutPlanCreateAPIView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
     def post(self, request, *args, **kwargs):
@@ -96,8 +96,6 @@ class TaskListView(ListAPIView):
         
         return tasks
     
-
-
 class SetTaskCompleted(APIView):
     serializer_class = TaskSerializer
     authentication_classes = [JWTAuthentication]
@@ -114,7 +112,6 @@ class SetTaskCompleted(APIView):
 
         return Response({'data': 'Changed resource successfully'})
 
-
 class SetTaskSkipped(APIView):
     serializer_class = TaskSerializer
     authentication_classes = [JWTAuthentication]
@@ -129,7 +126,6 @@ class SetTaskSkipped(APIView):
         tasks_obj.save()
         return Response({'data':'Changed resource successfully'})
     
-
 class TaskListViewCompleted(ListAPIView):
     """ Endpoint used to send a list of completed tasks"""
     serializer_class = TaskSerializer
@@ -146,5 +142,53 @@ class TaskListViewCompleted(ListAPIView):
         return tasks
 
 class NutritionMealViewSet(viewsets.ModelViewSet):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = NutritionMeal.objects.all()
     serializer_class = NutritionMealSerializer
+
+class UpdateTasksView(ListCreateAPIView):
+    """ This endpoint updates task to the database """
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+     
+        try:
+            user = request.user
+            workout_plan_id = kwargs.get('workout_plan_id')
+            workout_plan = get_object_or_404(WorkoutPlan, id=workout_plan_id)
+
+            fitness_profile = FitnessProfile.objects.get(user=user)
+            user_fitness_data  = {
+                'age': fitness_profile.age,
+                'weight': fitness_profile.weight,
+                'height': fitness_profile.height,
+                'bmi': fitness_profile.bmi,
+                'goals': [fitness_profile.goals],
+                'activity_level': fitness_profile.activity_level,
+                'smoking_habit': fitness_profile.smoking_habit,
+                'dietary_preference': fitness_profile.dietary_preference
+            }
+            previous_nutrition = get_recently_issued_nutrition_meals_as_dict(fitness_profile)
+            previous_tasks = get_tasks_for_fitness_profile(fitness_profile)
+            report = request.data
+            bot_data = update_tasks_(user_data=user_fitness_data, nutrition=previous_nutrition, previous_tasks=previous_tasks, report=report )
+            bot_tasks =  bot_data[-1]
+            bot_nutrition = bot_data[0]
+            bot_comment = bot_data[-2]
+            tasks = [Task.objects.create(**task_data) for task_data in bot_tasks]
+
+            nutrition_meals = [NutritionMeal.objects.create(**nutrition_data) for nutrition_data in bot_nutrition ]
+            workout_plan.tasks.set(tasks)
+            workout_plan.nutrition_meals.set(nutrition_meals)
+
+            return Response({"detail": "Success", "comment":bot_comment}, status=status.HTTP_201_CREATED)
+
+
+        except FitnessProfile.DoesNotExist:
+            # Handle the case where FitnessProfile does not exist for the user
+            error_message = "FitnessProfile does not exist for the user."
+            return Response({"detail": error_message}, status=status.HTTP_400_BAD_REQUEST)

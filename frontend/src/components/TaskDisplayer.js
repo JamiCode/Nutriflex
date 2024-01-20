@@ -169,43 +169,47 @@ const TaskDisplayer = ({ workout_id }) => {
     // Check if localTasks is not empty and the first task is not completed
     const shouldShowModal = localTasks.length > 0 && !localTasks[0].is_done;
 
-    return (
-      <>
-        <button
-          className={`mt-4 px-6 py-2 ${
-            loading
-              ? "bg-gray-500"
-              : localTasks.length > 0 && localTasks[0].is_done
-              ? "bg-green-500"
-              : "bg-red-500"
-          } text-white rounded-md hover:bg-green-600`}
-          onClick={() => {
-            // Show the modal when the button is clicked
-            if (shouldShowModal) {
-              setShowModal(true);
-            } else {
-              // If the task is completed or localTasks is empty, proceed to the next task
-              handleNextTask();
-            }
-          }}
-        >
-          Next Task
-        </button>
+    if (localTasks.length > 0) {
+      return (
+        <>
+          <button
+            className={`mt-4 px-6 py-2 ${
+              loading
+                ? "bg-gray-500"
+                : localTasks.length > 0 && localTasks[0].is_done
+                ? "bg-green-500"
+                : "bg-red-500"
+            } text-white rounded-md hover:bg-green-600`}
+            onClick={() => {
+              // Show the modal when the button is clicked
+              if (shouldShowModal) {
+                setShowModal(true);
+              } else {
+                // If the task is completed or localTasks is empty, proceed to the next task
+                handleNextTask();
+              }
+            }}
+          >
+            Next Task
+          </button>
 
-        {/* General Modal for incomplete task */}
-        <GeneralModal
-          title="Incomplete Task"
-          message="Note: You have not completed your current task. Are you sure you want to move on to the next task?"
-          onCancel={() => setShowModal(false)}
-          onConfirm={() => {
-            setShowModal(false);
-            // Proceed to the next task when confirmed
-            handleNextTask();
-          }}
-          showModal={showModal}
-        />
-      </>
-    );
+          {/* General Modal for incomplete task */}
+          <GeneralModal
+            title="Incomplete Task"
+            message="Note: You have not completed your current task. Are you sure you want to move on to the next task?"
+            onCancel={() => setShowModal(false)}
+            onConfirm={() => {
+              setShowModal(false);
+              // Proceed to the next task when confirmed
+              handleNextTask();
+            }}
+            showModal={showModal}
+          />
+        </>
+      );
+    } else {
+      return null;
+    }
   };
   const handleCompletedTaskRender = () => {
     if (completedTaskError) {

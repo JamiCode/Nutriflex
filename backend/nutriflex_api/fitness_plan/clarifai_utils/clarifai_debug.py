@@ -36,5 +36,6 @@ if __name__ == '__main__':
     }
 
     # print(build_instruction_set('update', user_data, nutrition, tasks, week_report))
-    updated_tasks = update_tasks(user_data, nutrition, tasks, week_report)
-    print(json.dumps(updated_tasks, indent=4))
+    updated_tasks_ = update_tasks(user_data, nutrition, tasks, week_report)
+    print(json.dumps(updated_tasks_, indent=4))
+    print(type(updated_tasks_))

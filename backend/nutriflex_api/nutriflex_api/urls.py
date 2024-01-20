@@ -23,11 +23,12 @@ urlpatterns = [
     path('docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('api/users/', include('account.urls')),
     path('api/workout-plan/<int:user_id>', views.UserWorkoutPlanView.as_view(), name='list-workout'),
-    path('api/workout-plan/create', views.FitnessProfileCreateAPIView.as_view(), name='create-workoutplan'),
+    path('api/workout-plan/create', views.WorkoutPlanCreateAPIView.as_view(), name='create-workoutplan'),
     path('api/workout-plans/view/', views.WorkOutPlanListView.as_view(), name="workout-plan-list"),
     path('api/workout-plan/tasks/<str:workoutplan_id>', views.TaskListView.as_view(), name='task-list'),
     path('api/workout-plan/tasks/completed/<str:workoutplan_id>', views.TaskListViewCompleted.as_view(), name="task-list-completed"),
     path('api/workout-plan/task/set_complete_status/<int:task_id>', views.SetTaskCompleted.as_view(), name='set-task-complete-status'),
     path('api/workout-plan/task/set_task_skipped/<int:task_id>', views.SetTaskSkipped.as_view(), name="set-task-skipped-status"),
-    path('api/workout-plan/nutrition', views.NutritionMealViewSet.as_view({'get': 'list'}),name='nutrition-list-iems')
+    path('api/workout-plan/nutrition', views.NutritionMealViewSet.as_view({'get': 'list'}),name='nutrition-list-iems'),
+    path('api/workout-plan/task/update_task/<str:workout_plan_id>', views.UpdateTasksView.as_view(), name='update-tasks')
 ]
