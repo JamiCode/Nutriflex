@@ -28,6 +28,7 @@ Your response should be in json format only in the following format:
   ],
   "overview": "Short explanation of the goals for the week"
 }
+Meals should always be online "breakfast", "lunch" and "dinner".
 Return a total of 7 tasks that the user will have 7 days to complete.
 Each task should be a specific task designed for this specific user and goals and should be a task that can be completed (not a routine/daily task).
 Weight and height are in metric units.
