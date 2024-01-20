@@ -8,6 +8,7 @@ export default function Modal({
   message,
   isLoading,
   isSuccess,
+  responseErrorMessage,
 }) {
   return (
     <Dialog
@@ -40,7 +41,7 @@ export default function Modal({
               ? "Generating workout plan. This process might take some time, so please be patient."
               : isSuccess
               ? "Your request has been processed successfully."
-              : "An error occurred while processing your request."}
+              :responseErrorMessage }
           </Dialog.Description>
 
           <div className="flex justify-end">

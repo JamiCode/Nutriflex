@@ -1,5 +1,6 @@
 # account/models.py
 import uuid
+import json
 from django.db import models
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -13,6 +14,9 @@ class NutritionMeal(models.Model):
     calories = models.IntegerField()
     
 
+    def __str__(self):
+        self.food_suggestion_string = json.dumps(self.food_suggestions)
+        return self.food_suggestion_string
 
 
 class Task(models.Model):

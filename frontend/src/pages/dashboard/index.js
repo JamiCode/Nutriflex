@@ -7,8 +7,8 @@ import AuthenticatedNavBar from "@/components/AuthenticatedNavBar";
 import WorkoutFormManager from "@/components/WorkoutInputForm";
 import { WorkoutFormProvider } from "@/components/WorkoutFormProvider";
 import WorkoutPlanCard from "@/components/WorkoutPlanCard";
-import DashBoardMessage from "@/components/DashBoardMessage";
 import ThreeContainersComponent from "@/components/ThreeContainersComponent";
+import { Head } from "next/document";
 const Dashboard = () => {
   // const { user, setAuth, setUser } = useContext(AuthContext);
   const [selectedTab, setSelectedTab] = useState("workout");
@@ -60,9 +60,7 @@ const Dashboard = () => {
           is_completed: workoutPlanData.is_completed,
           nutrition_meals: nutritionDataResponse.data,
         });
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     };
     fetchUserData();
     if (hasWorkout) {
@@ -93,7 +91,6 @@ const Dashboard = () => {
           userFirstName={user.first_name}
           userLastName={user.last_name}
         />
-        {/* <DashBoardMessage first_name={user.first_name} /> */}
         <div
           className="flex flex-col items-center p-6 bg-gray-800 rounded-lg shadow-lg mt-8 sm:mt-12 md:mt-16 lg:mt-20 xl:mt-24 w-full lg:w-2/3 xl:w-2/3 min-h-[300px]"
           style={{
@@ -112,7 +109,7 @@ const Dashboard = () => {
               onClick={() => changeTab("workout")}
             >
               <TabButton
-                label="Workout Plans"
+                label="Workout Plan"
                 selected={selectedTab === "workout"}
               />
             </div>
@@ -167,7 +164,7 @@ const Dashboard = () => {
               ) : (
                 <div className="text-center">
                   <p className="text-2xl font-bold mb-4 text-white">
-                    No Workout Plans
+                    You Do Not Have Any Workout Plan
                   </p>
                   <p className="text-gray-300 mb-4">
                     Click below to start a new plan
@@ -185,7 +182,11 @@ const Dashboard = () => {
           {selectedTab === "nutrition" && (
             <div className="mb-8">
               <h1 className="text-2xl font-bold mb-4 text-white">
-                Your Nutrition Plan
+                <h1 className="text-2xl font-bold mb-4 text-white">
+                  {!hasWorkout
+                    ? "You Do Not Have a Nutrition Plan"
+                    : "Your Nutrition Plan"}
+                </h1>
               </h1>
               <ThreeContainersComponent
                 nutrition_meals={workoutPlanState.nutrition_meals}

@@ -6,6 +6,7 @@ import LifestyleForm from "./forms/LifestyleForm";
 import WorkoutFormContext from "./WorkoutFormProvider";
 import axios_ from "@/api/axios";
 import Modal from "./Modal";
+import { setRequestMeta } from "next/dist/server/request-meta";
 
 const WorkoutFormManager = ({ user }) => {
   const { globalFormState, setGlobalFormState } =
@@ -17,7 +18,9 @@ const WorkoutFormManager = ({ user }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [apiStatus, setApiStatus] = useState(null);
-  
+  const [responseErrorMessage, setResponseErrorMessage] = useState(
+    "An error occurred while processing your request."
+  );
 
   useEffect(() => {
     if (isGenerateWorkoutPlanLoading) {
@@ -33,65 +36,103 @@ const WorkoutFormManager = ({ user }) => {
   };
 
   const handleNext = () => {
-    setCurrentStep((prevStep) => prevStep + 1);
+    if (currentStep == 1) {
+      if (
+        globalFormState.height &&
+        globalFormState.weight &&
+        globalFormState.age
+      ) {
+        setCurrentStep((prevStep) => prevStep + 1);
+      } else {
+        alert("Do not leave the fields empty");
+      }
+    } else if (currentStep == 2) {
+      if (globalFormState.goals && globalFormState.activityLevel) {
+        setCurrentStep((prevStep) => prevStep + 1);
+      } else {
+        alert("Do not leave the fields empty");
+      }
+    }
   };
 
   const handlePrev = () => {
     setCurrentStep((prevStep) => prevStep - 1);
   };
 
-  const handleGenerateWorkoutPlan = async () => {
-    setIsLoading(true);
-    let smoking_habbit_value = "Non-Smoking";
-    if (globalFormState.smokingHabit) {
-      smoking_habbit_value = globalFormState.smokingHabit;
-    }
-
-    const workoutPlanBody = {
-      user: user.id,
-      height: globalFormState.height,
-      weight: globalFormState.weight,
-      age: globalFormState.age,
-      goals: globalFormState.goals,
-      activity_level: globalFormState.activityLevel,
-      smoking_habit: smoking_habbit_value,
-      dietary_preference: globalFormState.dietaryPreference,
-    };
-
-    try {
-      setIsModalOpen(true);
-      const createWorkoutPlanResponse = await axios_.post(
-        "/api/workout-plan/create",
-        workoutPlanBody,
-        { withCredentials: true }
+  const handleRenderFormTitle = () => {
+    if (currentStep == 1) {
+      return (
+        <h2 className="text-2xl font-bold mb-4 text-white">
+          Body Meassurement
+        </h2>
       );
+    } else if (currentStep == 2) {
+      return (
+        <h2 className="text-2xl font-bold mb-4 text-white">
+          Goals and Activity Level
+        </h2>
+      );
+    } else if (currentStep == 3) {
+      return <h2 className="text-2xl font-bold mb-4 text-white">Life Style</h2>;
+    }
+  };
 
-      setApiStatus(createWorkoutPlanResponse.data.api_status);
+  const handleGenerateWorkoutPlan = async () => {
+    if (globalFormState.dietaryPreference && globalFormState.smokingHabit) {
+      setIsLoading(true);
+      let smoking_habbit_value = "Non-Smoking";
+      if (globalFormState.smokingHabit) {
+        smoking_habbit_value = globalFormState.smokingHabit;
+      }
 
-      // Simulate a delay to show the loading state
-      setTimeout(() => {
+      const workoutPlanBody = {
+        user: user.id,
+        height: globalFormState.height,
+        weight: globalFormState.weight,
+        age: globalFormState.age,
+        goals: globalFormState.goals,
+        activity_level: globalFormState.activityLevel,
+        smoking_habit: smoking_habbit_value,
+        dietary_preference: globalFormState.dietaryPreference,
+      };
+
+      try {
+        setIsModalOpen(true);
+        const createWorkoutPlanResponse = await axios_.post(
+          "/api/workout-plan/create",
+          workoutPlanBody,
+          { withCredentials: true }
+        );
+
+        setApiStatus(createWorkoutPlanResponse.data.api_status);
+
+        // Simulate a delay to show the loading state
+        setTimeout(() => {
+          setIsLoading(false);
+
+          // Check if the API status is true
+          if (createWorkoutPlanResponse.data.api_status) {
+            setIsSuccess(true);
+          } else {
+            setIsSuccess(false);
+          }
+        }, 2000);
+        setTimeout(() => {
+          window.location.reload(true);
+        }, 3000);
+      } catch (error) {
+        setResponseErrorMessage(JSON.stringify(error.response.data.details));
         setIsLoading(false);
+        setApiStatus("error");
 
-        // Check if the API status is true
-        if (createWorkoutPlanResponse.data.api_status) {
-          setIsSuccess(true);
-        } else {
-          setIsSuccess(false);
-        }
-      }, 2000);
-      setTimeout(() => {
-        window.location.reload(true);
-      }, 3000);
-    } catch (error) {
-      console.log(error);
-      setIsLoading(false);
-      setApiStatus("error");
+        // In case of an error, set isSuccess to false
+        setIsSuccess(false);
 
-      // In case of an error, set isSuccess to false
-      setIsSuccess(false);
-
-      // Open the modal
-      setIsModalOpen(true);
+        // Open the modal
+        setIsModalOpen(true);
+      }
+    } else {
+      alert("Do not leave the fields empty");
     }
   };
 
@@ -110,9 +151,7 @@ const WorkoutFormManager = ({ user }) => {
 
   return (
     <div className="bg-gray-800 p-6 max-w-sm mx-auto mt-8">
-      <h2 className="text-2xl font-bold mb-4 text-white">
-        Create Your Workout Plan
-      </h2>
+      {handleRenderFormTitle()}
       {renderCurrentForm()}
       {/* buttons */}
       <div className="mt-4 flex justify-between">
@@ -153,6 +192,7 @@ const WorkoutFormManager = ({ user }) => {
         isLoading={isLoading}
         isSuccess={isSuccess}
         onClose={closeModal}
+        responseErrorMessage={responseErrorMessage}
       />
     </div>
   );
