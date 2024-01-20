@@ -9,10 +9,8 @@ const WorkoutFormContext = React.createContext({
     age: "",
     goals: "",
     activityLevel: "",
-    smokingHabit: "",
+    smokingHabit: "Non-Smoking",
     dietaryPreference: "",
-    durationNumber: "",
-    durationUnits: "",
   },
   setGlobalFormState: () => {},
 });
@@ -24,7 +22,7 @@ export const WorkoutFormProvider = ({ children }) => {
     age: "",
     goals: "",
     activityLevel: "",
-    smokingHabit: "",
+    smokingHabit: "Non-Smoking",
     dietaryPreference: "",
   });
   const router = useRouter();

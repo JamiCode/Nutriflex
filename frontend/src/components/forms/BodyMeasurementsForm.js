@@ -6,8 +6,8 @@ const BodyMeasurementsForm = () => {
     useContext(WorkoutFormContext);
   // Initialize state with specific values
   const [formData, setFormData] = useState({
-    height:globalFormState.height, 
-    weight: globalFormState.weight, 
+    height: globalFormState.height,
+    weight: globalFormState.weight,
     age: globalFormState.age,
   });
 
@@ -35,6 +35,7 @@ const BodyMeasurementsForm = () => {
           onChange={handleChange}
           value={formData.height}
           className="mt-1 p-2 w-full border rounded bg-gray-700 text-white"
+          required
         />
         <p className="text-sm text-gray-300 italic mt-1">
           Enter your exact Height
@@ -56,6 +57,7 @@ const BodyMeasurementsForm = () => {
           onChange={handleChange}
           value={formData.weight}
           className="mt-1 p-2 w-full border rounded bg-gray-700 text-white"
+          required
         />
         <p className="text-sm text-gray-300 italic mt-1">
           Enter your exact Weight
@@ -74,6 +76,7 @@ const BodyMeasurementsForm = () => {
           onChange={handleChange}
           value={formData.age}
           className="mt-1 p-2 w-full border rounded bg-gray-700 text-white"
+          required
         />
         <p className="text-sm text-gray-300 italic mt-1">How old are you</p>
       </div>

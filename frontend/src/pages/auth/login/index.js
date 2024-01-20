@@ -70,7 +70,7 @@ const Login = () => {
   return (
     <div className="bg-gray-800 text-white">
       <Head>
-        <title> Register | Sign Up </title>
+        <title> Login </title>
       </Head>
       <NavBar />
       <div className=" text-white min-h-screen flex items-center justify-center font-sans">

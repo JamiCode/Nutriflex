@@ -8,8 +8,6 @@ const LifestyleForm = () => {
   const { user } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     dietaryPreference: globalFormState.dietaryPreference,
-    durationNumber: globalFormState.durationNumber,
-    durationUnit: globalFormState.durationUnits, // Default unit is months
     smokingHabit: globalFormState.smokingHabit, // Added smokingHabit to formData
   });
 
@@ -62,7 +60,6 @@ const LifestyleForm = () => {
           Enter your dietary preference (e.g., vegetarian, vegan, nut-free).
           What you prefer in your diet.
         </p>
-        <span onClick={() => console.log(globalFormState)}> Click me</span>
       </div>
     </form>
   );

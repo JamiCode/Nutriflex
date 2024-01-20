@@ -5,7 +5,7 @@ const ThreeContainersComponent = ({ nutrition_meals }) => {
   if (!nutrition_meals) {
     return (
       <div className="bg-red-500 p-4 rounded-md text-white">
-        <p>You have not created your workout plan yet. Please create your workout.</p>
+        <p> You currently have no workout plan. Create a workout plan to to get a nutrition plan</p>
       </div>
     );
   }

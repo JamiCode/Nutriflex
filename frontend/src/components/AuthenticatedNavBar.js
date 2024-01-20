@@ -38,12 +38,11 @@ const AuthenticatedNavBar = ({ userFirstName }) => {
     <Navbar bg="dark" variant="dark" expand="lg">
       {/* Logo */}
       <Navbar.Brand
-        href="/"
+        href="/dashboard"
         className="d-flex align-items-center text-white font-weight-bold"
         style={{
           fontSize: "2.5rem",
-          fontFamily: "'Montserrat', sans-serif",
-        }} // Adjust the font size here
+        }}
       >
         <Image
           src={
@@ -71,7 +70,6 @@ const AuthenticatedNavBar = ({ userFirstName }) => {
             id="basic-nav-dropdown"
             align="end"
           >
-            <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
             <NavDropdown.Divider />
             <NavDropdown.Item onClick={handleLogout}>
               <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
