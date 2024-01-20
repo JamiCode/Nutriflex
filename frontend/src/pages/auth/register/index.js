@@ -5,6 +5,7 @@ import NavBar from "@/components/NavBar";
 import { useRouter } from "next/router";
 import { faEnvelope, faUser, faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Head from "next/head";
 
 const SignUp = () => {
   const router = useRouter();
@@ -104,6 +105,9 @@ const SignUp = () => {
 
   return (
     <div className="bg-gray-800 text-white">
+      <Head>
+        <title> Login </title>
+      </Head>
       <NavBar />
       <div className="bg-gray-800 text-white min-h-screen flex items-center justify-center font-sans">
         <div className="max-w-xl w-full p-8 bg-gray-700 rounded-md shadow-lg">

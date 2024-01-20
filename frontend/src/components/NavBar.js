@@ -1,48 +1,87 @@
-// NavBar.js
 import React from "react";
-import Link from "next/link";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import Image from "react-bootstrap/Image";
 
-const CustomLink = ({ href, children }) => (
-  <Link href={href}>
-    <div className="text-lg text-white cursor-pointer font-orbitron hover:text-gray-700 focus:text-gray-700 focus:outline-none">
-      {children}
-    </div>
-  </Link>
-);
-
-const NavBar = () => {
+function NavBar() {
   return (
-    <nav className="sticky top-0 z-50 bg-gray-800 p-4">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center">
-          <img
-            src="https://media.discordapp.net/attachments/1192825905077309612/1197078880276713491/Nutriflex_logoT_2.png?ex=65b9f595&is=65a78095&hm=23b703afd2e4fbd09b079e3514540a37703271452cbdaf81db0850e038433681&=&format=webp&quality=lossless&width=455&height=455"
-            alt="NutriFlex Logo"
-            className="w-16 h-16 mr-2"
-          />
-          <div className="text-2xl font-extrabold text-white font-orbitron">
-            NutriFlex
-          </div>
-        </div>
+    <>
+      <link
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        rel="stylesheet"
+      />
+      <style>
+        {`
+          .navbar-nav .nav-link:hover {
+            color: gray !important;
+          }
 
-        <div className="flex-grow flex items-center justify-center space-x-4">
-          <CustomLink href="#home">Home</CustomLink>
-          <CustomLink href="#features">Features</CustomLink>
-          <CustomLink href="#solution">Solution</CustomLink>
-          <CustomLink href="#contact">GitHub</CustomLink>
-        </div>
-
-        <div>
-          <CustomLink
-            href="/auth/login"
-            className="text-white font-orbitron hover:text-gray-700 focus:text-gray-700 focus:outline-none"
+          .navbar {
+            background-color: transparent !important; // Set background
+          }
+        `}
+      </style>
+      <Navbar
+        expand="lg"
+        className="sticky-top"
+        style={{
+          backgroundColor: "transparent", // Set background
+        }}
+      >
+        <Container>
+          {/* Logo and Brand */}
+          <Navbar.Brand
+            href="/"
+            className="d-flex align-items-center text-white font-weight-bold"
+            style={{
+              fontSize: "2.5rem",
+              fontFamily: "'Montserrat', sans-serif",
+            }} // Adjust the font size here
           >
-            Login
-          </CustomLink>
-        </div>
-      </div>
-    </nav>
+            <Image
+              src={
+                "https://media.discordapp.net/attachments/1192825905077309612/1197075610846117929/Nutriflex_logot.png?ex=65b9f28a&is=65a77d8a&hm=e540374cb86eea5d0b45dce09cdaba698eecfd52164db0d4ec055ee1f17425cd&=&format=webp&quality=lossless&width=455&height=455"
+              } // Replace with your logo URL
+              alt="Logo"
+              roundedCircle // Add this prop if your logo is circular
+              className="mr-2"
+              style={{ width: "60px", height: "60px" }} // Adjust the size here
+            />
+            NutriFlex
+          </Navbar.Brand>
+
+          {/* Navbar Toggle Button */}
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+
+          {/* Navbar Collapsible Content */}
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="ml-auto">
+              {/* ml-auto aligns items to the right */}
+              <Nav.Link href="/" className="text-white">
+                <p> Home </p>
+              </Nav.Link>
+              <Nav.Link href="#features" className="text-white">
+                Features
+              </Nav.Link>
+              <Nav.Link href="#idea" className="text-white">
+                Solution
+              </Nav.Link>
+              <Nav.Link href="#link" className="text-white">
+                About Us
+              </Nav.Link>
+              <Nav.Link href="/auth/login" className="text-white">
+                Login
+              </Nav.Link>
+              <Nav.Link href="/auth/register" className="text-white">
+                Sign Up
+              </Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
+    </>
   );
-};
+}
 
 export default NavBar;

@@ -8,6 +8,7 @@ import "../../../app/globals.css";
 import AuthContext from "@/components/AuthProvider";
 import axios_ from "@/api/axios";
 import AuthenticatedNavBar from "@/components/AuthenticatedNavBar";
+import Head from "next/head";
 
 const LOGIN_URL = "/api/users/token";
 
@@ -68,8 +69,11 @@ const Login = () => {
 
   return (
     <div className="bg-gray-800 text-white">
+      <Head>
+        <title> Register | Sign Up </title>
+      </Head>
       <NavBar />
-      <div className="bg-gray-800 text-white min-h-screen flex items-center justify-center font-sans">
+      <div className=" text-white min-h-screen flex items-center justify-center font-sans">
         <div className="max-w-xl w-full p-8 bg-gray-700 rounded-md shadow-lg">
           <h2 className="text-2xl font-bold mb-6 text-white">
             Login to your account
@@ -77,21 +81,21 @@ const Login = () => {
 
           <form onSubmit={handleSubmit}>
             {/* Email */}
-            <div className="mb-4">
+            <div className="mb-4 relative">
               <label className="block text-gray-300 text-sm mb-2">
                 Email Address
               </label>
-              <div className="relative">
+              <div className="flex items-center">
                 <FontAwesomeIcon
                   icon={faEnvelope}
-                  className="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-500"
+                  className="text-gray-500 mr-3"
                 />
                 <input
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full pl-10 px-3 py-2 rounded-md bg-gray-600 text-white placeholder-gray-500 focus:outline-none focus:ring focus:border-blue-300"
+                  className="w-full px-3 py-2 rounded-md bg-gray-600 text-white placeholder-gray-500 focus:outline-none focus:ring focus:border-blue-300"
                   placeholder="Enter your email"
                   required
                 />
@@ -99,27 +103,23 @@ const Login = () => {
             </div>
 
             {/* Password */}
-            <div className="mb-6">
+            <div className="mb-6 relative">
               <label className="block text-gray-300 text-sm mb-2">
                 Password
               </label>
-              <div className="relative">
-                <FontAwesomeIcon
-                  icon={faLock}
-                  className="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-500"
-                />
+              <div className="flex items-center">
+                <FontAwesomeIcon icon={faLock} className="text-gray-500 mr-3" />
                 <input
                   type="password"
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className="w-full pl-10 px-3 py-2 rounded-md bg-gray-600 text-white placeholder-gray-500 focus:outline-none focus:ring focus:border-blue-300"
+                  className="w-full px-3 py-2 rounded-md bg-gray-600 text-white placeholder-gray-500 focus:outline-none focus:ring focus:border-blue-300"
                   placeholder="Enter your password"
                   required
                 />
               </div>
             </div>
-
             {/* Error Message */}
             {errorMessage && (
               <div className="mb-4 text-red-500 text-sm">{errorMessage}</div>
