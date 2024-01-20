@@ -26,7 +26,9 @@ if __name__ == '__main__':
     tasks = output['tasks']
     overview = output['overview']
 
+    print('The update')
     time.sleep(20)
+
     week_report = {
         'completed_tasks': '7/7',
         'week_weight_change': '-20kg',

@@ -82,7 +82,7 @@ class WorkOutPlanListView(APIView):
             return Response({"data":[]})
 
 class TaskListView(ListAPIView):
-    """" Endpoints sends a list of tasks that arent completed"""
+    """" Endpoints sends a list of tasks that arent completed and arent skiped"""
     serializer_class = TaskSerializer
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
@@ -92,7 +92,7 @@ class TaskListView(ListAPIView):
         workout_plan = WorkoutPlan.objects.get(pk=workoutplan_id)
         
         # Filter tasks where is_done is False
-        tasks = workout_plan.tasks.filter(is_done=False)
+        tasks = workout_plan.tasks.filter(is_done=False, skipped=False)
         
         return tasks
     
@@ -106,14 +106,45 @@ class SetTaskCompleted(APIView):
     def get(self, request, *args, **kwargs):
         task_id = self.kwargs.get('task_id')
 
-        tasks_obj = get_object_or_404(Task, id=task_id)
+        task_obj = get_object_or_404(Task, id=task_id)
 
-        tasks_obj.is_done = True
+        task_obj.is_done = True
 
-        tasks_obj.save()
+        task_obj.save()
 
         return Response({'data': 'Changed resource successfully'})
+
+
+class SetTaskSkipped(APIView):
+    serializer_class = TaskSerializer
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+
+    def get(self, request, *args, **kwargs):
+        task_id = self.kwargs.get('task_id')
+        tasks_obj = get_object_or_404(Task, id=task_id)
+        tasks_obj.skipped = True
+        tasks_obj.is_done = False
+        tasks_obj.save()
+        return Response({'data':'Changed resource successfully'})
     
+
+class TaskListViewCompleted(ListAPIView):
+    """ Endpoint used to send a list of completed tasks"""
+    serializer_class = TaskSerializer
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        workoutplan_id = self.kwargs.get('workoutplan_id')
+        workout_plan = WorkoutPlan.objects.get(pk=workoutplan_id)
+        
+        # Filter tasks where is_done is False
+        tasks = workout_plan.tasks.filter(is_done=True)
+        
+        return tasks
+
 class NutritionMealViewSet(viewsets.ModelViewSet):
     queryset = NutritionMeal.objects.all()
     serializer_class = NutritionMealSerializer

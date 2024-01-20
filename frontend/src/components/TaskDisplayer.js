@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import TasksContext from "./TasksProvider";
 import axios_ from "@/api/axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import {
   faClock,
   faCheckCircle,
@@ -11,14 +10,34 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import ClipLoader from "react-spinners/ClipLoader";
 import FeedbackForm from "./forms/FeedBackForm";
+import GeneralModal from "./GeneralModal";
+
 const TaskDisplayer = ({ workout_id }) => {
   const [selectedTab, setSelectedTab] = useState("today");
   const { globalTasks, setGlobalTasks } = useContext(TasksContext);
   const [localTasks, setLocalTasks] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [completedTaskData, setCompletedTaskData] = useState([]);
+  const [completedTaskError, setCompletedTaskError] = useState(null);
 
   const changeTab = (tab) => {
     setSelectedTab(tab);
+  };
+
+  const fetchCompletedTask = async () => {
+    if (workout_id) {
+      try {
+        const completedTasksResponse = await axios_.get(
+          `api/workout-plan/tasks/completed/${workout_id}`
+        );
+        const completedData = completedTasksResponse.data;
+        setCompletedTaskData(completedData);
+      } catch (error) {
+        console.log(error);
+        setCompletedTaskError(error.message);
+      }
+    }
   };
 
   useEffect(() => {
@@ -38,6 +57,7 @@ const TaskDisplayer = ({ workout_id }) => {
       }
     };
     fetchTaskData();
+    fetchCompletedTask();
   }, [workout_id]);
 
   const handleNextTask = () => {
@@ -50,9 +70,21 @@ const TaskDisplayer = ({ workout_id }) => {
         console.log(error);
       }
     };
+
+    const updateTaskSkippedStatus = async () => {
+      try {
+        const response = await axios_.get(
+          `api/workout-plan/task/set_task_skipped/${localTasks[0].id}`
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
     // When user finishes the task, remove it from the state
     if (localTasks.length > 0 && localTasks[0].is_done) {
       setLoading(true);
+      localTasks[0].is_done = true;
+      completedTaskData.push(localTasks[0]);
       const updatedTasks = localTasks.slice(1);
       setLocalTasks(updatedTasks);
 
@@ -63,9 +95,15 @@ const TaskDisplayer = ({ workout_id }) => {
         setLoading(false);
       }, 2000);
     } else if (!localTasks[0].is_done) {
-      alert(
-        "Cannot Load the next task without completing your task. if you have completed your task please click on the checkbox   "
-      );
+      setLoading(true);
+      const updatedTasks = localTasks.slice(1);
+      setLocalTasks(updatedTasks);
+      // Simulate loading for 3 seconds
+      setTimeout(() => {
+        // Set loading back to false
+        updateTaskSkippedStatus();
+        setLoading(false);
+      }, 2000);
     }
   };
   const handleCheckboxChange = () => {
@@ -106,11 +144,11 @@ const TaskDisplayer = ({ workout_id }) => {
             <div className="mt-4">
               <input
                 type="checkbox"
-                className="form-checkbox h-6 w-6 text-blue-500"
+                className="form-checkbox h-4 w-4 text-blue-500"
                 checked={localTasks[0].is_done}
                 onChange={handleCheckboxChange}
               />
-              <label className="ml-2 text-white">Task Completed</label>
+              <p className="ml-2 text-white inline text-lg">Task Completed</p>
             </div>
           </div>
         </>
@@ -125,6 +163,102 @@ const TaskDisplayer = ({ workout_id }) => {
       return <FeedbackForm />;
     }
     return null;
+  };
+
+  const handleNextButtonRender = () => {
+    // Check if localTasks is not empty and the first task is not completed
+    const shouldShowModal = localTasks.length > 0 && !localTasks[0].is_done;
+
+    return (
+      <>
+        <button
+          className={`mt-4 px-6 py-2 ${
+            loading
+              ? "bg-gray-500"
+              : localTasks.length > 0 && localTasks[0].is_done
+              ? "bg-green-500"
+              : "bg-red-500"
+          } text-white rounded-md hover:bg-green-600`}
+          onClick={() => {
+            // Show the modal when the button is clicked
+            if (shouldShowModal) {
+              setShowModal(true);
+            } else {
+              // If the task is completed or localTasks is empty, proceed to the next task
+              handleNextTask();
+            }
+          }}
+        >
+          Next Task
+        </button>
+
+        {/* General Modal for incomplete task */}
+        <GeneralModal
+          title="Incomplete Task"
+          message="Note: You have not completed your current task. Are you sure you want to move on to the next task?"
+          onCancel={() => setShowModal(false)}
+          onConfirm={() => {
+            setShowModal(false);
+            // Proceed to the next task when confirmed
+            handleNextTask();
+          }}
+          showModal={showModal}
+        />
+      </>
+    );
+  };
+  const handleCompletedTaskRender = () => {
+    if (completedTaskError) {
+      return (
+        <div className="bg-red-500 p-4 rounded-md flex-1">
+          <p className="text-white">{completedTaskError}</p>
+        </div>
+      );
+    }
+
+    return (
+      <div className="bg-[#525CEB] p-4 rounded-md flex-1">
+        <h2 className="text-2xl font-bold mb-4">Completed Tasks</h2>
+        {completedTaskData.length === 0 ? (
+          <p className="text-lg text-gray-400">
+            You have no completed tasks yet.
+          </p>
+        ) : (
+          <ul>
+            {completedTaskData.map((task) => (
+              <li key={task.id} className="mb-4">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <p className="text-lg font-bold">{task.description}</p>
+                    <p className="text-sm text-gray-400">
+                      Completed on: {task.day_to_be_done}
+                    </p>
+                  </div>
+                  {/* Add any additional flair or icons as needed */}
+                  <div className="flex items-center space-x-2">
+                    {/* Example: checkmark icon */}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6 text-green-500"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    );
   };
 
   return (
@@ -162,6 +296,10 @@ const TaskDisplayer = ({ workout_id }) => {
               <div className="flex items-center">
                 <div className="flex items-center">
                   <div className="bg-[#525CEB] p-4 rounded-md flex-1">
+                    <h2 className="text-2xl font-bold mb-4">
+                      {" "}
+                      Task For the Day
+                    </h2>
                     {handleRenderTasks()}
 
                     <ClipLoader
@@ -178,19 +316,13 @@ const TaskDisplayer = ({ workout_id }) => {
             </li>
           </ul>
         ) : (
-          handleRenderForm()
+          localTasks.length === 0 && handleRenderForm()
         )}
-        {selectedTab === "completedTask" && <div>Lol!</div>}
+
+        {selectedTab === "completedTask" && handleCompletedTaskRender()}
       </div>
       {/* Green "Finish Task" button */}
-      {selectedTab === "today" && (
-        <button
-          className="mt-4 px-6 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
-          onClick={handleNextTask}
-        >
-          {loading ? "Loading Next Task..." : "Next Task"}
-        </button>
-      )}
+      {selectedTab === "today" && handleNextButtonRender()}
     </div>
   );
 };

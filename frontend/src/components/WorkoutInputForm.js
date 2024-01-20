@@ -150,7 +150,7 @@ const WorkoutFormManager = ({ user }) => {
   };
 
   return (
-    <div className="bg-gray-800 p-6 max-w-sm mx-auto mt-8">
+    <div className="bg-[#2E3496] p-6 max-w-sm mx-auto mt-8">
       {handleRenderFormTitle()}
       {renderCurrentForm()}
       {/* buttons */}

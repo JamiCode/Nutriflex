@@ -16,18 +16,19 @@ class NutritionMeal(models.Model):
 
     def __str__(self):
         self.food_suggestion_string = json.dumps(self.food_suggestions)
-        return self.food_suggestion_string
+        return f" {self.id} | {self.food_suggestion_string}"
 
 
 class Task(models.Model):
     description = models.TextField()
     is_done = models.BooleanField(default=False, null=False)
+    skipped = models.BooleanField(default=False, null=False)
     duration = models.CharField(max_length=20, null=True)
     day_to_be_done = models.DateField(auto_now_add=False, null=True)
     
 
     def __str__(self):
-        return self.description
+        return f"{self.id} | {self.description}"
 
 
 class WorkoutPlan(models.Model):
