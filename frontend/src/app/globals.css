@@ -25,6 +25,7 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+  background-color: #2d3748;
 }
 
 /* Add the following styles to your global.css or a specific CSS file */
@@ -92,8 +93,7 @@ body {
   background: #777; /* Lighter thumb color on hover */
 }
 
-
 /* Example: Add font-family definition to your CSS file or global styles */
 .font-orbitron {
-  font-family: 'Orbitron', sans-serif;
+  font-family: "Orbitron", sans-serif;
 }

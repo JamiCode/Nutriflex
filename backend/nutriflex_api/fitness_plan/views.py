@@ -79,7 +79,7 @@ class WorkOutPlanListView(APIView):
             serializer = self.serializer_class(workout_plans, many=True)
             return Response({"data":serializer.data}, status=status.HTTP_200_OK)
         except IndexError:
-            Response({"data":[]})
+            return Response({"data":[]})
 
 class TaskListView(ListAPIView):
     """" Endpoints sends a list of tasks that arent completed"""

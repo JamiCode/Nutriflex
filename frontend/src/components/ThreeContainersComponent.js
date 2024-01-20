@@ -1,6 +1,15 @@
 import React from "react";
 
 const ThreeContainersComponent = ({ nutrition_meals }) => {
+  // Check if nutrition_meals is undefined
+  if (!nutrition_meals) {
+    return (
+      <div className="bg-red-500 p-4 rounded-md text-white">
+        <p>You have not created your workout plan yet. Please create your workout.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col p-4 md:flex-row md:space-x-4">
       {/* Container 1 */}

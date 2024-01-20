@@ -49,7 +49,10 @@ const LandingPage = () => {
       </div>
 
       {/* Problem Statement, Solution, and Contact Sections */}
-      <div className="container mx-auto flex flex-wrap justify-center gap-8 py-8">
+      <div
+        className="container mx-auto flex flex-wrap justify-center gap-8 py-8"
+        id="idea"
+      >
         {/* Problem Statement Section */}
         <SectionCard title="Problem Statement">
           <p>
@@ -59,7 +62,6 @@ const LandingPage = () => {
             of fitness goals.
           </p>
         </SectionCard>
-
         {/* Solution Section */}
         <SectionCard title="Solution">
           <p>
@@ -70,12 +72,12 @@ const LandingPage = () => {
             motivated and committed to their long-term health goals.
           </p>
         </SectionCard>
-
         {/* Contact Section */}
-        <SectionCard title="Contact Us">
+
+        <SectionCard title="About Us">
           <p>
-            For any inquiries or support, please email us at{" "}
-            <a href="mailto:info@nutriflex.com">info@nutriflex.com</a>.
+            Our website was created as a submission for the lablab.ai NextGen
+            GPT AI Hackathon.
           </p>
         </SectionCard>
       </div>
