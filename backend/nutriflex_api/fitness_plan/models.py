@@ -12,6 +12,7 @@ class NutritionMeal(models.Model):
     description = models.CharField(max_length=255)
     food_suggestions = models.JSONField()
     calories = models.IntegerField()
+    recently_issued = models.BooleanField(default=True)
     
 
     def __str__(self):
