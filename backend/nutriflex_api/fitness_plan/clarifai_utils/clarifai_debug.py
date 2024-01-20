@@ -20,7 +20,7 @@ if __name__ == '__main__':
     print("creating new tasks")
     print("-------------------------------------")
     output = create_new_tasks(user_data)
-    print(json.dumps(output, indent=4))
+    # print(json.dumps(output, indent=4))
     name = output['name']
     nutrition = output['nutrition']
     tasks = output['tasks']
