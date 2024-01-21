@@ -19,6 +19,7 @@ from django.urls import path, include
 from .docs_schema import schema_view
 from fitness_plan import views 
 urlpatterns = [
+    path('', views.HomeView().as_view()),
     path('admin/', admin.site.urls),
     path('docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('api/users/', include('account.urls')),

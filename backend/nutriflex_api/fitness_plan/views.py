@@ -21,6 +21,12 @@ from .serializers import NutritionMealSerializer, WorkoutPlanSerializer
 from .services import update_tasks_
 from .services import get_recently_issued_nutrition_meals_as_dict,get_tasks_for_fitness_profile
 
+
+
+class HomeView(APIView):
+    def get(self, request, *args, **kwargs):
+        return Response({"message":"Welcome to nutriflexapi"})
+
 class UserWorkoutPlanView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
