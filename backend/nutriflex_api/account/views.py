@@ -17,7 +17,6 @@ from rest_framework.exceptions import AuthenticationFailed
 
 
 
-
 class UserDetailsView(APIView):
     """ Get Basic information about user"""
     permission_classes = [IsAuthenticated]
