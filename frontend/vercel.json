@@ -1,0 +1,8 @@
+{
+  "builds": [
+    { "src": "npm run build", "use": "@netlify/plugin-nextjs" }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "/$1" }
+  ]
+}
