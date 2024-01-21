@@ -106,7 +106,7 @@ const SignUp = () => {
   return (
     <div className="bg-gray-800 text-white">
       <Head>
-        <title> Login </title>
+        <title> Sign Up </title>
       </Head>
       <NavBar />
       <div className="bg-gray-800 text-white min-h-screen flex items-center justify-center font-sans">

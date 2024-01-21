@@ -1,10 +1,16 @@
+import axios_ from "@/api/axios";
 import React, { useState } from "react";
+import FeedBackModal from "../FeedBackModal";
 
-const FeedbackForm = () => {
+const FeedbackForm = ({ workout_id }) => {
   const [feedback, setFeedback] = useState("");
   const [tasksCompleted, setTasksCompleted] = useState("");
   const [weightChangeType, setWeightChangeType] = useState("Increased by");
   const [weightChangeValue, setWeightChangeValue] = useState("");
+  const [taskUpdateComment, setTaskUpdateComment] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -19,14 +25,46 @@ const FeedbackForm = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleSendReport = async () => {
+    try {
+      const report_body = {
+        completed_tasks: `${tasksCompleted}/7`,
+        week_weight_change:
+          weightChangeType == "Increased by"
+            ? `+${weightChangeValue}`
+            : `-${weightChangeValue}`,
+        comment: feedback,
+      };
+      console.log(report_body);
+
+      const response = await axios_.post(
+        `/api/workout-plan/task/update_task/${workout_id}`,
+        report_body,
+        {
+          withCredentials: true,
+        }
+      );
+      setTaskUpdateComment(response.data.comment);
+      setIsSuccess(true);
+    } catch (error) {
+      console.log(error);
+      setIsSuccess(false);
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Feedback submitted:", {
-      feedback,
-      tasksCompleted,
-      weightChangeType,
-      weightChangeValue,
-    });
+    setIsLoading(true);
+    openModal();
+    await handleSendReport();
+    setIsLoading(false);
   };
 
   return (
@@ -122,6 +160,12 @@ const FeedbackForm = () => {
           Submit Feedback
         </button>
       </form>
+      <FeedBackModal
+        isOpen={isModalOpen}
+        isLoading={isLoading}
+        isSuccess={isSuccess}
+        onClose={closeModal}
+      />
     </div>
   );
 };
