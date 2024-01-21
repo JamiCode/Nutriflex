@@ -34,9 +34,9 @@ body {
 .contact-container {
   border: 2px solid #4a5568;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); 
-  padding: 20px; 
-  transition: transform 0.3s ease-in-out; 
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  transition: transform 0.3s ease-in-out;
 }
 
 .feature-container:hover,
@@ -70,7 +70,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #333; 
+  background: #333;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -79,9 +79,25 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #777; 
+  background: #777;
 }
 
 .font-orbitron {
   font-family: "Orbitron", sans-serif;
+}
+
+/* globals.css or your component's stylesheet */
+@keyframes typewriter {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.typewriter {
+  overflow: hidden;
+  white-space: nowrap;
+  animation: typewriter 2s steps(40) 1s 1 normal both;
 }

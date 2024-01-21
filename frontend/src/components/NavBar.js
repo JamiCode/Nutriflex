@@ -3,6 +3,15 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Image from "react-bootstrap/Image";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faHome,
+  faInfo,
+  faUser,
+  faSignInAlt,
+  faSignOutAlt,
+  faCode,
+} from "@fortawesome/free-solid-svg-icons";
 
 function NavBar() {
   return (
@@ -39,9 +48,7 @@ function NavBar() {
             }} // Adjust the font size here
           >
             <Image
-              src={
-                "https://media.discordapp.net/attachments/1192825905077309612/1197075610846117929/Nutriflex_logot.png?ex=65b9f28a&is=65a77d8a&hm=e540374cb86eea5d0b45dce09cdaba698eecfd52164db0d4ec055ee1f17425cd&=&format=webp&quality=lossless&width=455&height=455"
-              } // Replace with your logo URL
+              src="https://media.discordapp.net/attachments/1192825905077309612/1197075610846117929/Nutriflex_logot.png?ex=65b9f28a&is=65a77d8a&hm=e540374cb86eea5d0b45dce09cdaba698eecfd52164db0d4ec055ee1f17425cd&=&format=webp&quality=lossless&width=455&height=455"
               alt="Logo"
               roundedCircle // Add this prop if your logo is circular
               className="mr-2"
@@ -58,21 +65,36 @@ function NavBar() {
             <Nav className="ml-auto">
               {/* ml-auto aligns items to the right */}
               <Nav.Link href="/" className="text-white">
-                <p> Home </p>
+                <FontAwesomeIcon icon={faHome} className="mr-1" />
+                Home
               </Nav.Link>
               <Nav.Link href="#features" className="text-white">
+                <FontAwesomeIcon icon={faCode} className="mr-1" />
                 Features
               </Nav.Link>
               <Nav.Link href="#idea" className="text-white">
+                <FontAwesomeIcon icon={faInfo} className="mr-1" />
                 Solution
               </Nav.Link>
-              <Nav.Link href="#link" className="text-white">
+              <Nav.Link href="#about" className="text-white">
+                <FontAwesomeIcon icon={faUser} className="mr-1" />
                 About Us
               </Nav.Link>
+              <Nav.Link
+                href="https://github.com/your-github-url"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white"
+              >
+                <FontAwesomeIcon icon={faCode} className="mr-1" />
+                GitHub
+              </Nav.Link>
               <Nav.Link href="/auth/login" className="text-white">
+                <FontAwesomeIcon icon={faSignInAlt} className="mr-1" />
                 Login
               </Nav.Link>
               <Nav.Link href="/auth/register" className="text-white">
+                <FontAwesomeIcon icon={faSignOutAlt} className="mr-1" />
                 Sign Up
               </Nav.Link>
             </Nav>
