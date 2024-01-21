@@ -217,13 +217,13 @@ const SignUp = () => {
                     <path
                       strokeLineCap="round"
                       stroke-linejoin="round"
-                      stroke-width="2"
+                      strokeWidth="2"
                       d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
                     ></path>
                     <path
                       strokeLineCap="round"
                       stroke-linejoin="round"
-                      stroke-width="2"
+                      strokeWidth="2"
                       d="M2 8s3 0 4 0 2 3 2 3 1 1 2 2 3 2 6 0"
                     ></path>
                   </svg>
@@ -238,13 +238,13 @@ const SignUp = () => {
                     <path
                       stroke-linecap="round"
                       stroke-linejoin="round"
-                      stroke-width="2"
+                      strokeWidth="2"
                       d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
                     ></path>
                     <path
                       stroke-linecap="round"
                       stroke-linejoin="round"
-                      stroke-width="2"
+                      strokeWidth="2"
                       d="M3 4a2 2 0 012-2h14a2 2 0 012 2v16a2 2 0 01-2 2H5a2 2 0 01-2-2V4zm3 0a1 1 0 011-1h8a1 1 0 011 1v3H6V4z"
                     ></path>
                   </svg>
@@ -289,13 +289,13 @@ const SignUp = () => {
                     <path
                       strokeLineCap="round"
                       stroke-linejoin="round"
-                      stroke-width="2"
+                      strokeWidth="2"
                       d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
                     ></path>
                     <path
                       strokeLineCap="round"
                       stroke-linejoin="round"
-                      stroke-width="2"
+                      strokeWidth="2"
                       d="M2 8s3 0 4 0 2 3 2 3 1 1 2 2 3 2 6 0"
                     ></path>
                   </svg>
@@ -310,13 +310,13 @@ const SignUp = () => {
                     <path
                       stroke-linecap="round"
                       stroke-linejoin="round"
-                      stroke-width="2"
+                      strokeWidth="2"
                       d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
                     ></path>
                     <path
                       stroke-linecap="round"
                       stroke-linejoin="round"
-                      stroke-width="2"
+                      strokeWidth="2"
                       d="M3 4a2 2 0 012-2h14a2 2 0 012 2v16a2 2 0 01-2 2H5a2 2 0 01-2-2V4zm3 0a1 1 0 011-1h8a1 1 0 011 1v3H6V4z"
                     ></path>
                   </svg>
