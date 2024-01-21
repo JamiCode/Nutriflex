@@ -35,7 +35,13 @@ const AuthenticatedNavBar = ({ userFirstName }) => {
   };
 
   return (
-    <Navbar bg="dark" variant="dark" expand="lg">
+    <Navbar
+      style={{
+        backgroundColor: "#0d1a2e",
+      }}
+      variant="dark"
+      expand="lg"
+    >
       {/* Logo */}
       <Navbar.Brand
         href="/dashboard"
