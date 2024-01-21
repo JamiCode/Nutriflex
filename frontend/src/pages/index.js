@@ -15,7 +15,9 @@ const LandingPage = () => {
       <NavBar />
       {/* Hero Section with more margin and padding */}
       <div className="container mx-auto text-center py-40">
-        <h1 className="text-5xl font-extrabold mb-4">Welcome to Nutri Flex</h1>
+        <h1 className="text-5xl font-extrabold mb-4 typewriter">
+          NutriFlex: Personal AI Assistant
+        </h1>
         <p className="text-lg mb-8">
           Your ultimate fitness companion powered by artificial intelligence!
         </p>
@@ -34,11 +36,11 @@ const LandingPage = () => {
           <div className="flex flex-wrap justify-center gap-8">
             <FeatureCard
               title="Personalized Workout Plans"
-              description="Tailored exercises based on individual fitness levels, preferences, and goals."
+              description="Tailored fitness exercises based on individual fitness levels, preferences, and goals."
             />
             <FeatureCard
-              title="Real-time Progress Analysis"
-              description="Track your progress and receive insights to optimize your fitness journey."
+              title="Weekly Fitness Task Generator"
+              description="Automatically generates a personalized set of fitness tasks for each week, enhancing your website with dynamic and engaging weekly workout plans."
             />
             <FeatureCard
               title="AI-Powered Encouragement"
@@ -74,12 +76,15 @@ const LandingPage = () => {
         </SectionCard>
         {/* Contact Section */}
 
-        <SectionCard title="About Us">
-          <p>
-            Our website was created as a submission for the lablab.ai NextGen
-            GPT AI Hackathon.
-          </p>
-        </SectionCard>
+        <div id="about">
+          <SectionCard title="About Us">
+            <p>
+              Our website was created as a submission for the lablab.ai NextGen
+              GPT AI Hackathon.
+              <a href="https://github.com/JamiCode/Nutriflex"> GitHub </a>
+            </p>
+          </SectionCard>
+        </div>
       </div>
     </div>
   );
