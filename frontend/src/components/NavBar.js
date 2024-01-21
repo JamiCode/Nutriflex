@@ -24,7 +24,6 @@ function NavBar() {
       </style>
       <Navbar
         expand="lg"
-        className="sticky-top"
         style={{
           backgroundColor: "transparent", // Set background
         }}
