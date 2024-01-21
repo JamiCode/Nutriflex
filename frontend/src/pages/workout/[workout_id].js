@@ -10,6 +10,7 @@ const WorkOutDashBoard = () => {
   const { workout_id } = router.query;
   const [workout_idState] = useState(workout_id);
   const [user, setUser] = useState({});
+
   const { globalTasks, setGlobalTasks } = useContext(TasksContext);
 
   useEffect(() => {
@@ -17,16 +18,13 @@ const WorkOutDashBoard = () => {
       try {
         const userDataResponse = await axios_("/api/users/me");
         setUser(userDataResponse.data);
-
-        // Check if workout_id is available
-
       } catch (error) {
         console.log(error);
       }
     };
 
     fetchUserData();
-  }, [globalTasks]); // Include workout_id as a dependency
+  }, [globalTasks]);
 
   return (
     <div className="bg-gray-800 text-white min-h-screen font-sans flex">
@@ -35,6 +33,9 @@ const WorkOutDashBoard = () => {
           userFirstName={user.first_name}
           userLastName={user.last_name}
         />
+        <h1 className="text-3xl font-semibold text-white text-center mt-8">
+          Weekly Task Manager
+        </h1>
 
         <div
           className="flex flex-col p-6 bg-gray-800 rounded-lg shadow-lg mt-8 sm:mt-12 md:mt-16 lg:mt-20 xl:mt-24 w-full lg:w-2/3 xl:w-2/3 min-h-[300px]"
@@ -45,6 +46,9 @@ const WorkOutDashBoard = () => {
             padding: "20px", // Add padding here
           }}
         >
+          <p>
+            Every Sunday at 00:00 UTC. Complete all tasks before the week ends.
+          </p>
           <TaskDisplayer workout_id={workout_id} />
         </div>
       </div>

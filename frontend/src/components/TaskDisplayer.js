@@ -160,7 +160,7 @@ const TaskDisplayer = ({ workout_id }) => {
 
   const handleRenderForm = () => {
     if (selectedTab === "today" && localTasks.length === 0) {
-      return <FeedbackForm />;
+      return <FeedbackForm workout_id={workout_id}/>;
     }
     return null;
   };

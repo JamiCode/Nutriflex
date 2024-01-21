@@ -106,7 +106,7 @@ const WorkoutFormManager = ({ user }) => {
 
         setApiStatus(createWorkoutPlanResponse.data.api_status);
 
-        // Simulate a delay to show the loading state
+        // SimsetTimeoulate a delay to show the loading state
         setTimeout(() => {
           setIsLoading(false);
 
