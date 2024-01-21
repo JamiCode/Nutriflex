@@ -1,7 +1,10 @@
 import axios from "axios";
+require("dotenv").config();
+
+API_KEY = process.env.API_KEY;
 
 const axios_ = axios.create({
-  baseURL: "http://localhost:8000",
+  baseURL: API_KEY,
 });
 
 // Add a request interceptor
@@ -27,7 +30,8 @@ axios_.interceptors.response.use(
     if (
       error.response.status === 401 &&
       !originalRequest._retry &&
-      (error.response.data.detail === "invalid_access_token" || error.response.data.code === "token_not_valid") 
+      (error.response.data.detail === "invalid_access_token" ||
+        error.response.data.code === "token_not_valid")
     ) {
       console.log(error.response.data);
       originalRequest._retry = true;
