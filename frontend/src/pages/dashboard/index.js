@@ -173,6 +173,9 @@ const Dashboard = () => {
                       setShowModal(false);
                       deleteWorkoutPlan();
                       toast("Your WorkoutPlan has been deleted");
+                      setTimeout(() => {
+                        window.location.pathname = "/dashboard";
+                      }, 1000);
                     }}
                     showModal={showModal}
                     yesOrNo={true}
