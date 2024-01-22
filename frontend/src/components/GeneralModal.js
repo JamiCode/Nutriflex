@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 
-const GeneralModal = ({ title, message, onCancel, onConfirm, showModal }) => {
+const GeneralModal = ({
+  title,
+  message,
+  onCancel,
+  onConfirm,
+  showModal,
+  yesOrNo,
+}) => {
   return (
     <div
       className={`fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none ${
@@ -35,7 +42,7 @@ const GeneralModal = ({ title, message, onCancel, onConfirm, showModal }) => {
               type="button"
               onClick={onCancel}
             >
-              Close
+              {yesOrNo ? "No" : "Close"}
             </button>
             <button
               className="bg-green-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
@@ -45,7 +52,7 @@ const GeneralModal = ({ title, message, onCancel, onConfirm, showModal }) => {
                 onConfirm();
               }}
             >
-              Confirm
+              {yesOrNo ? "Yes" : "Confirm"}
             </button>
           </div>
         </div>
