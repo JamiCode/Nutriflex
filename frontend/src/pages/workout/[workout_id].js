@@ -46,9 +46,6 @@ const WorkOutDashBoard = () => {
             padding: "20px", // Add padding here
           }}
         >
-          <p>
-            Every Sunday at 00:00 UTC. Complete all tasks before the week ends.
-          </p>
           <TaskDisplayer workout_id={workout_id} />
         </div>
       </div>
