@@ -17,6 +17,7 @@ const Dashboard = () => {
   const [isFormMounted, setIsFormMounted] = useState(false);
   const [user, setUser] = useState({});
   const [workoutPlanState, setWorkOutPlanState] = useState({ name: "Loading" });
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -80,14 +81,15 @@ const Dashboard = () => {
     setIsFormMounted(true);
   };
   const deleteWorkoutPlan = async () => {
-   try{
-     const response = await axios_.delete('/api/workout-plan/delete', {withCredentials:true});
-     setHasWorkout(false)
-   }catch(error){
-    console.log(error)
-   }
-
-  }
+    try {
+      const response = await axios_.delete("/api/workout-plan/delete", {
+        withCredentials: true,
+      });
+      setHasWorkout(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   if (!user) {
     return <div>Loading...</div>;
@@ -159,6 +161,18 @@ const Dashboard = () => {
                   >
                     Delete
                   </button>
+                  <GeneralModal
+                    title="Delete Workout Plan Action"
+                    message="Are you sure you want to delete your workout plan?"
+                    onCancel={() => setShowModal(false)}
+                    onConfirm={() => {
+                      setShowModal(false);
+                      // Proceed to the next task when confirmed
+                      handleNextTask();
+                    }}
+                    showModal={showModal}
+                    yesOrNo={true}
+                  />
                 </div>
               ) : isFormMounted ? (
                 <div>
