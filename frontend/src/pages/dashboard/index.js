@@ -61,6 +61,7 @@ const Dashboard = () => {
             setHasWorkout(false);
           }
         }
+        setRequestLoading(false);
       }
     };
 
