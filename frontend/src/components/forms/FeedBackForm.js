@@ -42,7 +42,6 @@ const FeedbackForm = ({ workout_id }) => {
             : `-${weightChangeValue}`,
         comment: feedback,
       };
-      console.log(report_body);
 
       const response = await axios_.post(
         `/api/workout-plan/task/update_task/${workout_id}`,

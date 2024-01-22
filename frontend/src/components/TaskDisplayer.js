@@ -43,7 +43,6 @@ const TaskDisplayer = ({ workout_id }) => {
   useEffect(() => {
     const fetchTaskData = async () => {
       if (workout_id) {
-        console.log("Hit");
         try {
           const tasksDataResponse = await axios_(
             `api/workout-plan/tasks/${workout_id}`

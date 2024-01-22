@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
       } else if (window.location.pathname !== "/dashboard") {
         // Use the correct property: pathname (not path)
         if (window.location.pathname.match(/^\/workout\/.*$/)) {
-          console.log('Path matches "/workout/"');
+          // console.log('Path matches "/workout/"');
           return;
         }
         window.location.pathname = "/dashboard";
