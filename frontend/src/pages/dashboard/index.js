@@ -10,6 +10,8 @@ import WorkoutPlanCard from "@/components/WorkoutPlanCard";
 import ThreeContainersComponent from "@/components/ThreeContainersComponent";
 import { Head } from "next/document";
 import GeneralModal from "@/components/GeneralModal";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const Dashboard = () => {
   // const { user, setAuth, setUser } = useContext(AuthContext);
   const [selectedTab, setSelectedTab] = useState("workout");
@@ -168,12 +170,13 @@ const Dashboard = () => {
                     onCancel={() => setShowModal(false)}
                     onConfirm={() => {
                       setShowModal(false);
-                      // Proceed to the next task when confirmed
-                      handleNextTask();
+                      deleteWorkoutPlan();
+                      toast("Your WorkoutPlan has been deleted");
                     }}
                     showModal={showModal}
                     yesOrNo={true}
                   />
+                  <ToastContainer />
                 </div>
               ) : isFormMounted ? (
                 <div>
