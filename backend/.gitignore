@@ -38,6 +38,9 @@ MANIFEST
 pip-log.txt
 pip-delete-this-directory.txt
 
+
+*.sqlite3
+db.sqlite3
 # Unit test / coverage reports
 htmlcov/
 .tox/
@@ -60,8 +63,7 @@ cover/
 # Django stuff:
 *.log
 local_settings.py
-db.sqlite3
-db.sqlite3-journal
+
 
 # Flask stuff:
 instance/
@@ -161,10 +163,22 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-backend/nutriflex_api/account/migrations/0001_initial.py
-
-backend/nutriflex_api/fitness_plan/migrations/
-
-backend/account/migrations/
-
-backend/fitness_plan/migrations/
+nutriflex_api/account/migrations/0001_initial.py
+nutriflex_api/account/migrations/__init__.py
+nutriflex_api/fitness_plan/migrations/0001_initial.py
+nutriflex_api/fitness_plan/migrations/0002_remove_fitnessplan_custom_dietary_preference_and_more.py
+nutriflex_api/fitness_plan/migrations/0003_alter_fitnessplan_activity_level_and_more.py
+nutriflex_api/fitness_plan/migrations/0004_fitnessprofile_delete_fitnessplan.py
+nutriflex_api/fitness_plan/migrations/0005_fitnessprofile_duration_and_more.py
+nutriflex_api/fitness_plan/migrations/0006_rename_ongoing_task_is_done_remove_task_date.py
+nutriflex_api/fitness_plan/migrations/0007_remove_workoutplan_end_date_task_day_to_be_done_and_more.py
+nutriflex_api/fitness_plan/migrations/0008_workoutplan_fitness_profile_name.py
+nutriflex_api/fitness_plan/migrations/0009_remove_fitnessprofile_duration.py
+nutriflex_api/fitness_plan/migrations/0010_workoutplan_name.py
+nutriflex_api/fitness_plan/migrations/0011_nutritionmeal_remove_fitnessprofile_nutrition_plan_and_more.py
+nutriflex_api/fitness_plan/migrations/0012_rename_type_nutritionmeal_description.py
+nutriflex_api/fitness_plan/migrations/0013_rename_nutrition_meal_workoutplan_nutrition_meals.py
+nutriflex_api/fitness_plan/migrations/0014_remove_workoutplan_nutrition_meals_and_more.py
+nutriflex_api/fitness_plan/migrations/0015_task_skipped.py
+nutriflex_api/fitness_plan/migrations/0016_nutritionmeal_recently_issued.py
+nutriflex_api/fitness_plan/migrations/__init__.py
