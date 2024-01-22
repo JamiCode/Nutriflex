@@ -9,6 +9,7 @@ import { WorkoutFormProvider } from "@/components/WorkoutFormProvider";
 import WorkoutPlanCard from "@/components/WorkoutPlanCard";
 import ThreeContainersComponent from "@/components/ThreeContainersComponent";
 import { Head } from "next/document";
+import GeneralModal from "@/components/GeneralModal";
 const Dashboard = () => {
   // const { user, setAuth, setUser } = useContext(AuthContext);
   const [selectedTab, setSelectedTab] = useState("workout");
