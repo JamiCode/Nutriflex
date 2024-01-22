@@ -12,6 +12,7 @@ import { Head } from "next/document";
 import GeneralModal from "@/components/GeneralModal";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 const Dashboard = () => {
   // const { user, setAuth, setUser } = useContext(AuthContext);
   const [selectedTab, setSelectedTab] = useState("workout");
