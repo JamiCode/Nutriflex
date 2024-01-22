@@ -71,7 +71,7 @@ const FeedbackForm = ({ comment, setComment, workout_id }) => {
   };
 
   const fireToast = () => {
-    toast("Your WorkoutPlan has been deleted");
+    toast("A New Set of Tasks has been generated");
   };
 
   return (
