@@ -158,7 +158,7 @@ const Dashboard = () => {
                   />
                   <button
                     className="bg-red-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow-md"
-                    onClick={() => deleteWorkoutPlan()}
+                    onClick={() => setShowModal(true)}
                   >
                     Delete
                   </button>
