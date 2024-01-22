@@ -87,14 +87,14 @@ body {
 }
 
 /* globals.css or your component's stylesheet */
-@keyframes typewriter {
+/* @keyframes typewriter {
   from {
     width: 0;
   }
   to {
     width: 100%;
   }
-}
+} */
 
 .typewriter {
   overflow: hidden;

@@ -66,12 +66,18 @@ const LandingPage = () => {
         </SectionCard>
         {/* Solution Section */}
         <SectionCard title="Solution">
-          <p>
-            Nutri Flex addresses these challenges by leveraging cutting-edge AI
-            technology to deliver a dynamic and engaging fitness experience.
-            With personalized guidance, real-time progress tracking, and
-            interactive AI encouragement, Nutri Flex is designed to keep users
-            motivated and committed to their long-term health goals.
+          <h1
+            className="font-extrabold mb-2 typewriter"
+            style={{ fontSize: "1.5rem", textAlign: "center" }}
+          >
+            NutriFlex:
+            <br />
+            Personal AI Assistant
+          </h1>
+          <p className="text-sm sm:text-lg mb-4">
+            {" "}
+            {/* Responsive text sizes */}
+            Your ultimate fitness companion powered by artificial intelligence!
           </p>
         </SectionCard>
         {/* Contact Section */}
