@@ -60,7 +60,7 @@ const SignUp = () => {
     };
     try {
       const response = await fetch(
-        "http://localhost:8000/api/users/create",
+        "https://nutriflex-ai.up.railway.app",
         fetchObject
       );
       if (!response.ok) {
