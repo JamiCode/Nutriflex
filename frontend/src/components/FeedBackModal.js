@@ -9,6 +9,7 @@ export default function FeedBackModal({
   isLoading,
   isSuccess,
   responseErrorMessage,
+  comment,
 }) {
   return (
     <Dialog
@@ -40,8 +41,8 @@ export default function FeedBackModal({
             {isLoading
               ? "Generating workout plan. This process might take some time, so please be patient."
               : isSuccess
-              ? "Your request has been processed successfully."
-              :responseErrorMessage }
+              ? comment
+              : responseErrorMessage}
           </Dialog.Description>
 
           <div className="flex justify-end">

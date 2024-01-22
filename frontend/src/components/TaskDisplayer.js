@@ -20,6 +20,7 @@ const TaskDisplayer = ({ workout_id }) => {
   const [showModal, setShowModal] = useState(false);
   const [completedTaskData, setCompletedTaskData] = useState([]);
   const [completedTaskError, setCompletedTaskError] = useState(null);
+  const [comment, setComment] = useState("");
 
   const changeTab = (tab) => {
     setSelectedTab(tab);
@@ -159,7 +160,13 @@ const TaskDisplayer = ({ workout_id }) => {
 
   const handleRenderForm = () => {
     if (selectedTab === "today" && localTasks.length === 0) {
-      return <FeedbackForm workout_id={workout_id}/>;
+      return (
+        <FeedbackForm
+          comment={comment}
+          setComment={setComment}
+          workout_id={workout_id}
+        />
+      );
     }
     return null;
   };
