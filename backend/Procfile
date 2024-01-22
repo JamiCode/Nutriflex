@@ -1,0 +1,1 @@
+web: python manage.py makemigrations && python manage.py migrate && python manage.py collectstatic --no-input && gunicorn nutriflex_api.wsgi --timeout 0 --graceful-timeout 0 --error-logfile error.log --access-logfile access.log

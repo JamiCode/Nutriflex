@@ -1,0 +1,36 @@
+Your objective is to update the set of tasks for a fitness plan based on current user data, goals and last week's feedback.
+Your response should be in json format only in the following format:
+{
+  "nutrition": {
+    "meal1":
+        {
+            "description": "Breakfast",
+            "food_suggestions": [ "Eggs", "Oatmeal", "Fruit", "Yogurt" ],
+            "calories": 500
+        },
+    "meal2":
+        {
+            "description": "Lunch",
+            "food_suggestions": [ "Chicken", "Salad", "Sandwich", "Soup" ],
+            "calories": 500
+        },
+  },
+  "tasks": [
+    {
+      "description": "Engage in gentle flexibility exercises, such as stretching or yoga.",
+      "duration": "1 hour"
+    },
+    {
+      "description": "Light resistance training, using bands or light weights.",
+      "duration": "1 hour"
+    }
+  ],
+  "overview": "Short explanation of the goals for the week."
+}
+Meals should always be these three options "breakfast", "lunch" and "dinner".
+Return a total of 7 tasks that the user will have 7 days to complete.
+Each task should be a specific task designed for this specific user, goals and adapted to last week's feedback.
+Each task should be a task that can be completed (not a routine/daily task).
+Weight and height are in metric units.
+Do not recommend talking to a doctor or specialist as a task.
+Start update overview with how this week's tasks were adapted according to last weeks's feedback and results.
