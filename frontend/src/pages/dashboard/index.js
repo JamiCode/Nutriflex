@@ -79,6 +79,15 @@ const Dashboard = () => {
   const handleStartPlanClick = () => {
     setIsFormMounted(true);
   };
+  const deleteWorkoutPlan = async () => {
+   try{
+     const response = await axios_.delete('/api/workout-plan/delete', {withCredentials:true});
+     setHasWorkout(false)
+   }catch(error){
+    console.log(error)
+   }
+
+  }
 
   if (!user) {
     return <div>Loading...</div>;
@@ -146,7 +155,7 @@ const Dashboard = () => {
                   />
                   <button
                     className="bg-red-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow-md"
-                    onClick={() => console.log(workoutPlanState)}
+                    onClick={() => deleteWorkoutPlan()}
                   >
                     Delete
                   </button>

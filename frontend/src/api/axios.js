@@ -1,7 +1,7 @@
 import axios from "axios";
 require("dotenv").config();
 
-const API_KEY = "https://nutriflex-ai.up.railway.app";
+const API_KEY = "https://localhost:8000";
 
 const axios_ = axios.create({
   baseURL: API_KEY,

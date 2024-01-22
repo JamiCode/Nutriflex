@@ -34,7 +34,7 @@ class Task(models.Model):
 
 class WorkoutPlan(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(default="Sample WorkoutPlan", max_length=20)
+    name = models.CharField(default="Sample WorkoutPlan", max_length=255)
     fitness_profile_name = models.CharField(max_length=255, null=True)
     description = models.TextField()  
     tasks = models.ManyToManyField(Task, blank=True)
