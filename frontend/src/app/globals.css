@@ -86,18 +86,39 @@ body {
   font-family: "Orbitron", sans-serif;
 }
 
-/* globals.css or your component's stylesheet */
-/* @keyframes typewriter {
+@keyframes typewriter {
   from {
     width: 0;
   }
   to {
     width: 100%;
   }
-} */
-
+}
 .typewriter {
   overflow: hidden;
   white-space: nowrap;
   animation: typewriter 2s steps(40) 1s 1 normal both;
+}
+
+/* Add this CSS to your stylesheet */
+/* Adjust the outline styles as needed */
+
+/* Remove the default focus outline */
+:focus {
+  outline: none;
+}
+
+/* Apply a custom focus style to the FontAwesome icons */
+.fa-user:focus,
+.fa-sign-out-alt:focus {
+  outline: 2px solid blue; /* Adjust the color and thickness as needed */
+}
+
+/* For screens smaller than 640px (typical mobile devices) */
+@media (max-width: 640px) {
+  .typewriter {
+    animation: none; /* Remove typewriter animation */
+    font-size: 2rem; /* Adjust font size as needed */
+    white-space: normal; /* Allow text to wrap */
+  }
 }
