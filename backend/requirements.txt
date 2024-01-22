@@ -4,7 +4,9 @@ certifi==2023.11.17
 cffi==1.16.0
 charset-normalizer==3.3.2
 clarifai-grpc==10.0.3
+click==8.1.7
 cryptography==41.0.7
+dj-database-url==2.1.0
 Django==5.0.1
 django-cors-headers==4.3.1
 djangorestframework==3.14.0
@@ -12,12 +14,16 @@ djangorestframework-simplejwt==5.3.1
 drf-yasg==1.21.7
 googleapis-common-protos==1.62.0
 grpcio==1.60.0
+gunicorn==21.2.0
+h11==0.14.0
 idna==3.6
 inflection==0.5.1
 jsonschema==4.20.0
 jsonschema-specifications==2023.12.1
 packaging==23.2
 protobuf==4.25.2
+psycopg==3.1.17
+psycopg-binary==3.1.17
 pycparser==2.21
 PyJWT==2.8.0
 python-dotenv==1.0.0
@@ -31,3 +37,5 @@ swagger-spec-validator==3.0.3
 typing_extensions==4.9.0
 uritemplate==4.1.1
 urllib3==2.1.0
+uvicorn==0.26.0
+whitenoise==6.6.0
