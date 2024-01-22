@@ -1,10 +1,12 @@
 import axios_ from "@/api/axios";
 import React, { useState } from "react";
 import FeedBackModal from "../FeedBackModal";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const FeedbackForm = ({ workout_id }) => {
+const FeedbackForm = ({ comment, setComment, workout_id }) => {
   const [feedback, setFeedback] = useState("");
-  const [tasksCompleted, setTasksCompleted] = useState("");
+  const [tasksCompleted, setTasksCompleted] = useState();
   const [weightChangeType, setWeightChangeType] = useState("Increased by");
   const [weightChangeValue, setWeightChangeValue] = useState("");
   const [taskUpdateComment, setTaskUpdateComment] = useState("");
@@ -50,6 +52,8 @@ const FeedbackForm = ({ workout_id }) => {
           withCredentials: true,
         }
       );
+      fireToast();
+      setComment(response.data.comment);
       setTaskUpdateComment(response.data.comment);
       setIsSuccess(true);
     } catch (error) {
@@ -64,6 +68,10 @@ const FeedbackForm = ({ workout_id }) => {
     openModal();
     await handleSendReport();
     setIsLoading(false);
+  };
+
+  const fireToast = () => {
+    toast("Your WorkoutPlan has been deleted");
   };
 
   return (
@@ -92,7 +100,6 @@ const FeedbackForm = ({ workout_id }) => {
             required
           ></textarea>
         </div>
-
         <div className="mb-4">
           <label
             className="block text-gray-300 text-sm font-bold mb-2"
@@ -160,11 +167,14 @@ const FeedbackForm = ({ workout_id }) => {
         </button>
       </form>
       <FeedBackModal
+        comment={comment}
+        setComment={comment}
         isOpen={isModalOpen}
         isLoading={isLoading}
         isSuccess={isSuccess}
         onClose={closeModal}
       />
+      <ToastContainer />
     </div>
   );
 };
