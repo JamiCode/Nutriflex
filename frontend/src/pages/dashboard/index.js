@@ -17,7 +17,7 @@ const Dashboard = () => {
   // const { user, setAuth, setUser } = useContext(AuthContext);
   const [selectedTab, setSelectedTab] = useState("workout");
   const router = useRouter();
-  const [hasWorkout, setHasWorkout] = useState(true);
+  const [hasWorkout, setHasWorkout] = useState(false);
   const [isFormMounted, setIsFormMounted] = useState(false);
   const [user, setUser] = useState({});
   const [workoutPlanState, setWorkOutPlanState] = useState({ name: "Loading" });
@@ -31,7 +31,7 @@ const Dashboard = () => {
         const workoutResponse = await axios_.get(
           `/api/workout-plan/${userDataResponse.data.id}`
         ); //
-        if (workoutResponse.response >= 200) {
+        if (workoutResponse.status >= 200) {
           setHasWorkout(true);
         }
       } catch (error) {
@@ -58,6 +58,7 @@ const Dashboard = () => {
         );
 
         const workoutPlanData = workoutPlanDataResponse.data.data[0];
+        console.log("bro");
         setWorkOutPlanState({
           workout_id: workoutPlanData.id,
           name: workoutPlanData.name,
@@ -98,6 +99,22 @@ const Dashboard = () => {
   if (!user) {
     return <div>Loading...</div>;
   }
+  const handleRenderDashBoardMessage = () => {
+    if (hasWorkout) {
+      return (
+        <p className="text-lg font-medium">
+          Welcome {user.first_name}, Create a new workout plan to get started
+        </p>
+      );
+    } else {
+      return (
+        <p className="text-lg font-medium">
+          Greetings, {user.first_name}. Your personalized workout plan is ready.
+          Please click on the workout plan to view your exercises.
+        </p>
+      );
+    }
+  };
 
   return (
     <div className="bg-gray-800 text-white min-h-screen font-sans flex">
@@ -106,6 +123,17 @@ const Dashboard = () => {
           userFirstName={user.first_name}
           userLastName={user.last_name}
         />
+        <button
+          onClick={() => {
+            console.log(hasWorkout);
+          }}
+        >
+          me
+        </button>
+        <div className="bg-gray-700 text-white p-4 mb-6 ml-5 rounded-md mt-4 w-1/2">
+          {handleRenderDashBoardMessage()}
+        </div>
+
         <div
           className="flex flex-col items-center p-6 bg-gray-800 rounded-lg shadow-lg mt-8 sm:mt-12 md:mt-16 lg:mt-20 xl:mt-24 w-full lg:w-2/3 xl:w-2/3 min-h-[300px]"
           style={{
@@ -175,7 +203,7 @@ const Dashboard = () => {
                       toast("Your WorkoutPlan has been deleted");
                       setTimeout(() => {
                         window.location.pathname = "/dashboard";
-                      }, 1000);
+                      }, 4000);
                     }}
                     showModal={showModal}
                     yesOrNo={true}
@@ -184,10 +212,6 @@ const Dashboard = () => {
                 </div>
               ) : isFormMounted ? (
                 <div>
-                  <h4 className="text-lg font-semibold mb-2 text-white italic">
-                    Input Prompts to the AI model to generate a personalized
-                    workout plan
-                  </h4>
                   <WorkoutFormProvider>
                     <WorkoutFormManager user={user} />
                   </WorkoutFormProvider>
@@ -195,7 +219,7 @@ const Dashboard = () => {
               ) : (
                 <div className="text-center">
                   <p className="text-2xl font-bold mb-4 text-white">
-                    You Do Not Have Any Workout Plan
+                    You currently do not have any workout plan. Create one
                   </p>
                   <p className="text-gray-300 mb-4">
                     Click below to start a new plan
@@ -215,7 +239,7 @@ const Dashboard = () => {
               <h1 className="text-2xl font-bold mb-4 text-white">
                 <h1 className="text-2xl font-bold mb-4 text-white">
                   {!hasWorkout
-                    ? "You Do Not Have a Nutrition Plan"
+                    ? "No nutrition plan avaliable, create a workout plan to generate a nutrition plan"
                     : "Your Nutrition Plan"}
                 </h1>
               </h1>
