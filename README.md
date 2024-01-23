@@ -1,9 +1,7 @@
 # Nutri Flex - Your Personalized AI Fitness Assistant
-[![Python application](https://github.com/Tech-With-Tim/twtcodejam.net/workflows/Python%20application/badge.svg?branch=master)](https://github.com/Tech-With-Tim/twtcodejam.net/actions)
-[![Line count](https://img.shields.io/tokei/lines/github/Tech-With-TIm/twtcodejam.net)](https://github.com/Tech-With-Tim/twtcodejam.net)
-[![Open issues](https://img.shields.io/github/issues/Tech-With-Tim/twtcodejam.net)](https://github.com/Tech-With-Tim/twtcodejam.net/issues)
-[![License](https://img.shields.io/github/license/Tech-With-Tim/twtcodejam.net?color=brightgreen)](https://github.com/Tech-With-Tim/twtcodejam.net/blob/master/LICENSE)
-[![Discord server](https://img.shields.io/discord/501090983539245061.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/twt)
+[![Nutri Flex App](https://nutriflex.vercel.app.)
+
+
 
 ## Overview
 
