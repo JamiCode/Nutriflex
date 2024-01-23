@@ -4,7 +4,7 @@
 
 
 ## Overview
-A Fitness Assistant web-app that helps plan a workout schedule plan tailored to the specific user
+A Fitness Assistant web app that helps plan a workout schedule plan tailored to the specific user.
 
 #### Current Status: Completed
 
