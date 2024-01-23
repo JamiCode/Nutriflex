@@ -2,7 +2,6 @@
 https://nutriflex.vercel.app/
 
 
-
 ## Overview
 A Fitness Assistant web app that helps plan a workout schedule plan tailored to the specific user.
 
