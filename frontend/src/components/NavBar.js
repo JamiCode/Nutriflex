@@ -81,7 +81,7 @@ function NavBar() {
                 About Us
               </Nav.Link>
               <Nav.Link
-                href="https://github.com/your-github-url"
+                href="https://github.com/JamiCode/Nutriflex"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white"
