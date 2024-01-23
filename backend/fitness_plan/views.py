@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.views import APIView
@@ -168,6 +169,7 @@ class UpdateTasksView(ListCreateAPIView):
     def post(self, request, *args, **kwargs):
      
         try:
+            print('hello')
             user = request.user
             workout_plan_id = kwargs.get('workout_plan_id')
             workout_plan = get_object_or_404(WorkoutPlan, id=workout_plan_id)
@@ -204,6 +206,20 @@ class UpdateTasksView(ListCreateAPIView):
             error_message = "FitnessProfile does not exist for the user."
             return Response({"detail": error_message}, status=status.HTTP_400_BAD_REQUEST)
 
+        except Http404:
+            # Handle the case where an object is not found (e.g., get_object_or_404)
+            error_message = "Object not found."
+            return Response({"detail": error_message}, status=status.HTTP_404_NOT_FOUND)
+        
+
+        except Exception as e:
+            # Handle any other unexpected exception
+            error_message = f"An unexpected error occurred: {str(e)}"
+            print(error_message)
+            import traceback
+            traceback.print_exc()  # Print the stack trace
+            return Response({"detail": error_message}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 
 
@@ -234,6 +250,19 @@ class DeleteFitnessProfileView(APIView):
             return Response({'detail': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
+class TaskCompletedCountView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    """" Counts how many tasks is completed"""
+    def get(self, request, *args, **kwargs):
+        workout_id = request.query_params.get('workout_id')
+        # Check if the workout plan with the given ID exists
+        workout_plan = WorkoutPlan.objects.filter(id=workout_id).first()
 
-#Python Backend view endpoint in getting amount of completed tasks
- 
+        if not workout_plan:
+            return Response({'detail': 'Workout plan not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        # Count completed tasks for the given workout plan
+        task_count = Task.objects.filter(workoutplan=workout_plan, is_done=True).count()
+
+        return Response({'task_count': task_count}, status=status.HTTP_200_OK)

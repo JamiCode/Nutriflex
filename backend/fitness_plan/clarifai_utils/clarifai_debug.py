@@ -8,7 +8,7 @@ if __name__ == '__main__':
         'weight': 20,
         'height': 190,
         'bmi': 33.24,
-        'goals': ["Gain weight while also increasing mobility, dexterity and flexibility"],
+        'goals': ["     "],
         'activity_level': "Moderately Active",
         'smoking_habit': "Non-Smoker",
         'dietary_preference': "Vegan"
