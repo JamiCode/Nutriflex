@@ -232,3 +232,8 @@ class DeleteFitnessProfileView(APIView):
 
         except Exception as e:
             return Response({'detail': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+
+#Python Backend view endpoint in getting amount of completed tasks
+ 
