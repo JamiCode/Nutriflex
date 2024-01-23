@@ -1,5 +1,5 @@
 # Nutri Flex - Your Personalized AI Fitness Assistant
-[!(https://nutriflex.vercel.app.)
+https://nutriflex.vercel.app/
 
 
 
