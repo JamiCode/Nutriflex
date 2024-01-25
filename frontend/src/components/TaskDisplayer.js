@@ -21,6 +21,7 @@ const TaskDisplayer = ({ workout_id }) => {
   const [completedTaskData, setCompletedTaskData] = useState([]);
   const [completedTaskError, setCompletedTaskError] = useState(null);
   const [comment, setComment] = useState("");
+  const [showForm, setShowForm] = useState(false);
 
   const changeTab = (tab) => {
     setSelectedTab(tab);
@@ -58,7 +59,8 @@ const TaskDisplayer = ({ workout_id }) => {
     };
     fetchTaskData();
     fetchCompletedTask();
-  }, [workout_id]);
+    handleRenderForm();
+  }, [workout_id, selectedTab, localTasks]);
 
   const handleNextTask = () => {
     const updateTaskCompletedStatus = async () => {
@@ -160,15 +162,11 @@ const TaskDisplayer = ({ workout_id }) => {
 
   const handleRenderForm = () => {
     if (selectedTab === "today" && localTasks.length === 0) {
-      return (
-        <FeedbackForm
-          comment={comment}
-          setComment={setComment}
-          workout_id={workout_id}
-        />
-      );
+      // Set showForm to true after 3000 milliseconds (3 seconds)
+      setTimeout(() => {
+        setShowForm(true);
+      }, 3000);
     }
-    return null;
   };
 
   const handleNextButtonRender = () => {
@@ -326,7 +324,15 @@ const TaskDisplayer = ({ workout_id }) => {
             </li>
           </ul>
         ) : (
-          localTasks.length === 0 && handleRenderForm()
+          // Render FeedbackForm if showForm is true
+          localTasks.length === 0 &&
+          showForm && (
+            <FeedbackForm
+              comment={comment}
+              setComment={setComment}
+              workout_id={workout_id}
+            />
+          )
         )}
 
         {selectedTab === "completedTask" && handleCompletedTaskRender()}
