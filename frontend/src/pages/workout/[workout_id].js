@@ -1,5 +1,6 @@
 import axios_ from "@/api/axios";
 import AuthenticatedNavBar from "@/components/AuthenticatedNavBar";
+import Loader from "@/components/FadeOutLoader";
 import TaskDisplayer from "@/components/TaskDisplayer";
 import TasksContext, { TasksProvider } from "@/components/TasksProvider";
 import { useRouter } from "next/router";
