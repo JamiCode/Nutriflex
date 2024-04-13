@@ -52,7 +52,7 @@ const AuthenticatedNavBar = ({ userFirstName }) => {
       >
         <Image
           src={
-            "https://media.discordapp.net/attachments/1192825905077309612/1197075610846117929/Nutriflex_logot.png?ex=65b9f28a&is=65a77d8a&hm=e540374cb86eea5d0b45dce09cdaba698eecfd52164db0d4ec055ee1f17425cd&=&format=webp&quality=lossless&width=455&height=455"
+            "/logo.png"
           } // Replace with your logo URL
           alt="Logo"
           roundedCircle // Add this prop if your logo is circular
