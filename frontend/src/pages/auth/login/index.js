@@ -39,7 +39,29 @@ const Login = () => {
     // Set loading to true when the form is submitted
     setLoading(true);
 
+    // Initialize a variable to store the timeout ID
+    let timeoutId;
+
+    // Set up a timeout to show the modal after 40 seconds
+    const showTimeoutModal = () => {
+      timeoutId = setTimeout(() => {
+        // Set loading back to false
+        setLoading(false);
+
+        // Show the modal
+        setShowTimeoutModal(true);
+      }, 40000); // 40 seconds
+    };
+
+    // Function to clear the timeout
+    const clearTimeoutModal = () => {
+      clearTimeout(timeoutId);
+    };
+
     try {
+      // Show the timeout modal after 40 seconds
+      showTimeoutModal();
+
       const response = await axios_.post(LOGIN_URL, JSON.stringify(formData), {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
@@ -62,6 +84,9 @@ const Login = () => {
       // Handle login error
       setErrorMessage(error.response.data.detail);
     } finally {
+      // Clear the timeout when the response is received
+      clearTimeoutModal();
+
       // Set loading back to false when the response is received
       setLoading(false);
     }
