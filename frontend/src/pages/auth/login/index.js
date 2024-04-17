@@ -1,4 +1,3 @@
-// Login.js
 import React, { useState, useContext } from "react";
 import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,6 +8,7 @@ import AuthContext from "@/components/AuthProvider";
 import axios_ from "@/api/axios";
 import AuthenticatedNavBar from "@/components/AuthenticatedNavBar";
 import Head from "next/head";
+import TimeoutModal from "@/components/TimeoutModal";
 
 const LOGIN_URL = "/api/users/token";
 
@@ -26,6 +26,7 @@ const Login = () => {
 
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false); // Loading indicator state
+  const [showTimeoutModal, setShowTimeoutModal] = useState(false); // Timeout modal state
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -43,24 +44,24 @@ const Login = () => {
     let timeoutId;
 
     // Set up a timeout to show the modal after 40 seconds
-    const showTimeoutModal = () => {
+    const showTimeout = () => {
       timeoutId = setTimeout(() => {
         // Set loading back to false
         setLoading(false);
 
-        // Show the modal
+        // Show the timeout modal
         setShowTimeoutModal(true);
       }, 40000); // 40 seconds
     };
 
     // Function to clear the timeout
-    const clearTimeoutModal = () => {
+    const clearTimeoutTimeout = () => {
       clearTimeout(timeoutId);
     };
 
     try {
       // Show the timeout modal after 40 seconds
-      showTimeoutModal();
+      showTimeout();
 
       const response = await axios_.post(LOGIN_URL, JSON.stringify(formData), {
         headers: { "Content-Type": "application/json" },
@@ -85,7 +86,7 @@ const Login = () => {
       setErrorMessage(error.response.data.detail);
     } finally {
       // Clear the timeout when the response is received
-      clearTimeoutModal();
+      clearTimeoutTimeout();
 
       // Set loading back to false when the response is received
       setLoading(false);
@@ -175,6 +176,12 @@ const Login = () => {
           </div>
         </div>
       </div>
+
+      {/* Timeout Modal */}
+      <TimeoutModal
+        isOpen={showTimeoutModal}
+        onClose={() => setShowTimeoutModal(false)}
+      />
     </div>
   );
 };
