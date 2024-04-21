@@ -50,9 +50,11 @@ const TaskDisplayer = ({ workout_id }) => {
           const tasksDataResponse = await axios_(
             `api/workout-plan/tasks/${workout_id}`
           );
+          if (tasksDataResponse.data.length  ==  0 ){
+            setShowForm(true);
+          }
           setGlobalTasks(tasksDataResponse.data);
           setLocalTasks(tasksDataResponse.data);
-          console.log(globalTasks);
         } catch (error) {
           console.error("Error fetching task data:", error);
         }
@@ -60,7 +62,6 @@ const TaskDisplayer = ({ workout_id }) => {
     };
     fetchTaskData();
     fetchCompletedTask();
-    handleRenderForm();
   }, [workout_id, selectedTab]);
 
   const handleNextTask = () => {
@@ -106,10 +107,8 @@ const TaskDisplayer = ({ workout_id }) => {
   const handleCheckboxChange = () => {
     // When the checkbox is clicked, update localTasks[0].is_done
     if (localTasks.length > 0) {
-      console.log(localTasks, "initial");
       const updatedTaskss = [...localTasks];
       updatedTaskss[0].is_done = !updatedTaskss[0].is_done;
-      console.log(updatedTaskss, "after update");
 
       setLocalTasks(updatedTaskss); // registers the update to client
     }
@@ -148,7 +147,6 @@ const TaskDisplayer = ({ workout_id }) => {
                 checked={localTasks[0].is_done}
                 onChange={handleCheckboxChange}
               />
-              {/* {console.log(localTasks, "poop  ")} */}
               <p className="ml-2 text-white inline text-lg">Task Completed</p>
             </div>
           </div>
@@ -159,14 +157,7 @@ const TaskDisplayer = ({ workout_id }) => {
     }
   };
 
-  const handleRenderForm = () => {
-    if (selectedTab === "today" && localTasks.length === 0) {
-      // Set showForm to true after 3000 milliseconds (3 seconds)
-      setTimeout(() => {
-        setShowForm(true);
-      }, 3000);
-    }
-  };
+ 
 
   const handleNextButtonRender = () => {
     // Check if localTasks is not empty and the first task is not completed
@@ -270,93 +261,76 @@ const TaskDisplayer = ({ workout_id }) => {
 
   return (
     <div className="flex flex-col items-center">
-      {/* Render tabs only if showForm is false */}
-      {!showForm && (
-        <div className="flex justify-center space-x-4">
-          <div
-            className={`group flex items-center px-4 py-2 bg-blue-gray-800 border border-black border-solid border-opacity-75 rounded-lg ${
-              selectedTab === "today"
-                ? "bg-opacity-100"
-                : "hover:bg-opacity-100"
-            }`}
-            onClick={() => changeTab("today")}
-          >
-            <TabButton
-              label="Today's Task"
-              selected={selectedTab === "today"}
-            />
-          </div>
-          <div className="border-r border-black border-opacity-75 h-8"></div>
-          <div
-            className={`group flex items-center px-4 py-2 bg-blue-gray-800 border border-black border-solid border-opacity-75 rounded-lg ${
-              selectedTab === "completedTask"
-                ? "bg-opacity-100"
-                : "hover:bg-opacity-100"
-            }`}
-            onClick={() => changeTab("completedTask")}
-          >
-            <TabButton
-              label="Completed Tasks"
-              selected={selectedTab === "completedTask"}
-            />
-          </div>
-        </div>
-      )}
-
-      {/* Placeholder div based on selected tab */}
-      <div className="mt-8 text-white text-center">
-        {/* Render feedback form if showForm is true */}
-        {showForm ? (
-          <FeedbackForm
-            comment={comment}
-            setComment={setComment}
-            workout_id={workout_id}
-          />
-        ) : (
-          <>
-            {selectedTab === "today" && localTasks && localTasks.length > 0 ? (
-              <ul>
-                {/* Display only the first task in this card */}
-                <li key={localTasks[0].id} className="text-lg mb-4">
-                  <div className="flex items-center">
-                    <div className="flex items-center">
-                      <div className="bg-[#525CEB] p-4 rounded-md flex-1">
-                        <h2 className="text-2xl font-bold mb-4">
-                          {" "}
-                          Task For the Day
-                        </h2>
-                        {loading ? (
-                          // Display the loader while loading
-                          <Loader />
-                        ) : (
-                          // Render tasks when data is loaded
-                          handleRenderTasks()
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            ) : (
-              // Render FeedbackForm if showForm is true
-              localTasks.length === 0 &&
-              showForm && (
-                <FeedbackForm
-                  comment={comment}
-                  setComment={setComment}
-                  workout_id={workout_id}
-                />
-              )
-            )}
-
-            {selectedTab === "completedTask" && handleCompletedTaskRender()}
-          </>
+        {/* Render tabs only if showForm is false */}
+        {!showForm && (
+            <div className="flex justify-center space-x-4">
+                <div
+                    className={`group flex items-center px-4 py-2 bg-blue-gray-800 border border-black border-solid border-opacity-75 rounded-lg ${
+                        selectedTab === "today"
+                            ? "bg-opacity-100"
+                            : "hover:bg-opacity-100"
+                    }`}
+                    onClick={() => changeTab("today")}
+                >
+                    <TabButton label="Today's Task" selected={selectedTab === "today"} />
+                </div>
+                <div className="border-r border-black border-opacity-75 h-8"></div>
+                <div
+                    className={`group flex items-center px-4 py-2 bg-blue-gray-800 border border-black border-solid border-opacity-75 rounded-lg ${
+                        selectedTab === "completedTask"
+                            ? "bg-opacity-100"
+                            : "hover:bg-opacity-100"
+                    }`}
+                    onClick={() => changeTab("completedTask")}
+                >
+                    <TabButton label="Completed Tasks" selected={selectedTab === "completedTask"} />
+                </div>
+            </div>
         )}
-      </div>
-      {/* Green "Finish Task" button */}
-      {!showForm && selectedTab === "today" && handleNextButtonRender()}
+
+        {/* Placeholder div based on selected tab */}
+        <div className="mt-8 text-white text-center">
+            {/* Render FeedbackForm if showForm is true and localTasks.length is 0 */}
+            {showForm && localTasks.length === 0 ? (
+                <FeedbackForm
+                    comment={comment}
+                    setComment={setComment}
+                    workout_id={workout_id}
+                />
+            ) : (
+                <>
+                    {selectedTab === "today" && localTasks.length > 0 ? (
+                        <ul>
+                            {/* Display only the first task in this card */}
+                            <li key={localTasks[0].id} className="text-lg mb-4">
+                                <div className="flex items-center">
+                                    <div className="flex items-center">
+                                        <div className="bg-[#525CEB] p-4 rounded-md flex-1">
+                                            <h2 className="text-2xl font-bold mb-4">Task For the Day</h2>
+                                            {loading ? (
+                                              <p> Loading </p>
+                                            ) : (
+                                                handleRenderTasks()
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    ) : (
+                        selectedTab === "today" && <p> Loading </p>
+                    )}
+
+                    {selectedTab === "completedTask" && handleCompletedTaskRender()}
+                </>
+            )}
+        </div>
+
+        {/* Green "Finish Task" button */}
+        {!showForm && selectedTab === "today" && handleNextButtonRender()}
     </div>
-  );
+);
+
 };
 
 export default TaskDisplayer;
